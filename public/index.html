@@ -1,42 +1,127 @@
-<!doctype html><html lang="zh-CN"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>游戏导航</title>
 <style>
-:root{--a:#3488ff;--card:rgba(16,30,54,.86);--muted:#9eb0ca}*{box-sizing:border-box}
-body{margin:0;color:#eef5ff;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#050b17 center/cover fixed no-repeat}
-body:before{content:"";position:fixed;inset:0;background:linear-gradient(180deg,#020a1c55,#020816f7 76%);z-index:-1}
-nav{height:64px;padding:0 5%;display:flex;align-items:center;gap:30px;background:#040d1fcc;backdrop-filter:blur(16px);position:sticky;top:0;z-index:5;border-bottom:1px solid #ffffff18}
-.logo{font-size:24px;font-weight:800}.logo span{color:var(--a)}nav a{color:#c6d3e9;text-decoration:none;font-size:14px}.admin{margin-left:auto;border:1px solid #ffffff2a;background:#ffffff0d;color:#fff;border-radius:20px;padding:9px 16px;cursor:pointer}
-.hero{text-align:center;padding:78px 20px 45px}.hero h1{font-size:44px;margin:0 0 12px}.hero p{color:#c7d2e8}.search{max-width:650px;margin:28px auto 0;background:white;border-radius:28px;padding:5px;display:flex}.search input{flex:1;border:0;outline:0;padding:14px 20px;border-radius:24px}.search button,.save,.play{border:0;background:var(--a);color:white;border-radius:10px;padding:11px 22px;font-weight:700;cursor:pointer}.search button{border-radius:22px}.tags{margin-top:16px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.tag,.cat{border:1px solid #ffffff20;background:#ffffff0b;padding:7px 13px;border-radius:18px;font-size:12px}
-.wrap{max-width:1250px;margin:auto;padding:0 22px 60px}.cats{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:30px}.cat{text-align:center;padding:17px 5px;border-radius:12px;color:#d8e4f5;cursor:pointer}.cat.active{background:var(--a);color:#fff}.title{display:flex;justify-content:space-between}.games{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:15px}.game{background:var(--card);border:1px solid #ffffff16;border-radius:15px;padding:14px;display:grid;grid-template-columns:64px 1fr;gap:12px;box-shadow:0 12px 30px #0004}.icon{width:64px;height:64px;border-radius:15px;object-fit:cover;background:#13213a}.game h3{margin:4px 0 6px}.game p{font-size:12px;color:var(--muted);line-height:1.5;margin:0}.play{grid-column:1/-1;width:100%}.overlay{display:none;position:fixed;inset:0;background:#000b;z-index:20;overflow:auto}.panel{max-width:1000px;margin:4vh auto;background:#0c172b;border:1px solid #ffffff20;border-radius:18px;padding:24px}.head{display:flex;justify-content:space-between}.close{background:#ffffff12;color:#fff;border:0;padding:8px 12px;border-radius:8px}.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}.box{background:#ffffff08;border:1px solid #ffffff12;border-radius:12px;padding:16px;margin-top:15px}.box input,.box select{width:100%;margin:6px 0 12px;padding:10px;border-radius:8px;background:#071225;color:#fff;border:1px solid #ffffff20}.preview{max-width:100%;width:100%;height:100px;border-radius:10px;object-fit:cover;background:#071225}.hint{font-size:12px;color:#8fa2bf;line-height:1.6}.row{display:grid;grid-template-columns:48px 1.1fr 1.6fr 1.6fr 1.6fr 1fr 70px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #ffffff0d}.row img{width:44px;height:44px;border-radius:9px;object-fit:cover}.danger{background:#ef476f;color:#fff;border:0;border-radius:7px;padding:8px}.save{width:100%;margin-top:10px}.login{max-width:380px}.hidden{display:none}footer{text-align:center;color:#70829e;padding:25px;font-size:12px}
-@media(max-width:900px){.games{grid-template-columns:repeat(2,1fr)}.cats{grid-template-columns:repeat(4,1fr)}.form{grid-template-columns:1fr}}
-@media(max-width:560px){.hero h1{font-size:31px}.games{grid-template-columns:1fr}.cats{grid-template-columns:repeat(2,1fr)}.panel{margin:0;border-radius:0;min-height:100vh}.row{grid-template-columns:44px 1fr auto}.row input:nth-of-type(n+2){grid-column:2/-1}}
-</style></head><body>
-<nav><div class="logo">🎮 <span>游戏</span>导航</div><a href="#">首页</a><a href="#games">🔥 热门推荐</a><a href="#cats">▦ 游戏分类</a><a href="#">🏆 排行榜</a><button class="admin" onclick="openAdmin()">⚙ 管理后台</button></nav>
-<section class="hero"><h1>游戏世界 · 从这里开始</h1><p>精选热门游戏推荐，海量资源，一键直达</p><div class="search"><input id="q" placeholder="搜索游戏名称..." oninput="render()"><button>搜索</button></div><div class="tags"><span class="tag">原神</span><span class="tag">王者荣耀</span><span class="tag">和平精英</span><span class="tag">崩坏：星穹铁道</span></div></section>
-<main class="wrap"><div class="cats" id="cats"></div><div class="title"><h2>🔥 热门游戏推荐</h2><span>查看更多 →</span></div><div class="games" id="games"></div></main><footer>游戏导航 · Cloudflare 版</footer>
+:root{--a:#3488ff;--card:rgba(16,30,54,.86);--muted:#9eb0ca}
+*{box-sizing:border-box}
+body{margin:0;color:#eef5ff;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#050b17 center/cover fixed no-repeat;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(180deg,#020a1c55,#020816f7 80%);z-index:-1}
+nav{height:70px;padding:0 5%;display:flex;align-items:center;background:#040d1fcc;backdrop-filter:blur(16px);position:sticky;top:0;z-index:5;border-bottom:1px solid #ffffff18}
+.logo{font-size:25px;font-weight:800;letter-spacing:.5px}.logo span{color:var(--a)}
+.contact{margin-left:auto;border:1px solid #ffffff28;background:linear-gradient(135deg,var(--a),#6d55ff);color:#fff;border-radius:22px;padding:10px 20px;font-weight:700;cursor:pointer;text-decoration:none;box-shadow:0 8px 24px #0005}
+.hero{text-align:center;padding:55px 20px 28px}
+.hero h1{font-size:38px;margin:0 0 10px}.hero p{color:#b8c7df;margin:0}
+.wrap{max-width:1100px;margin:auto;padding:18px 22px 70px}
+.title{display:flex;align-items:center;justify-content:space-between;margin:8px 0 18px}
+.title h2{font-size:24px;margin:0}.more{color:#9eb0ca;font-size:14px}
+.games{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.game{background:var(--card);border:1px solid #ffffff16;border-radius:18px;padding:18px;box-shadow:0 12px 30px #0004;display:flex;flex-direction:column;gap:14px}
+.game-top{display:flex;align-items:center;gap:13px}
+.icon{width:62px;height:62px;border-radius:15px;object-fit:cover;background:#13213a;flex:none}
+.game h3{margin:0;font-size:19px}.game p{font-size:12px;color:var(--muted);line-height:1.5;margin:5px 0 0}
+.play{border:0;background:var(--a);color:white;border-radius:11px;padding:12px 16px;font-weight:800;cursor:pointer;width:100%;font-size:15px}
+.play:active{transform:scale(.98)}
+.empty{text-align:center;color:#8496b2;padding:60px 20px}
+.overlay{display:none;position:fixed;inset:0;background:#000b;z-index:20;overflow:auto}
+.panel{max-width:1000px;margin:4vh auto;background:#0c172b;border:1px solid #ffffff20;border-radius:18px;padding:24px}
+.head{display:flex;justify-content:space-between}.close{background:#ffffff12;color:#fff;border:0;padding:8px 12px;border-radius:8px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{background:#ffffff08;border:1px solid #ffffff12;border-radius:12px;padding:16px;margin-top:15px}
+.box input,.box select{width:100%;margin:6px 0 12px;padding:10px;border-radius:8px;background:#071225;color:#fff;border:1px solid #ffffff20}
+.preview{max-width:100%;width:100%;height:100px;border-radius:10px;object-fit:cover;background:#071225}
+.hint{font-size:12px;color:#8fa2bf;line-height:1.6}.save{width:100%;margin-top:10px;border:0;background:var(--a);color:#fff;border-radius:10px;padding:11px;font-weight:700}
+.row{display:grid;grid-template-columns:48px 1.1fr 1.4fr 1.6fr 1.6fr 1fr 70px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #ffffff0d}
+.row img{width:44px;height:44px;border-radius:9px;object-fit:cover}.danger{background:#ef476f;color:#fff;border:0;border-radius:7px;padding:8px}.login{max-width:380px}.footer{text-align:center;color:#657894;padding:20px;font-size:12px}
+.admin-hidden{position:fixed;right:10px;bottom:8px;opacity:.18;border:0;background:transparent;color:#fff;font-size:11px}
+@media(max-width:760px){.hero h1{font-size:29px}.games{grid-template-columns:1fr 1fr}.wrap{padding-left:16px;padding-right:16px}}
+@media(max-width:520px){nav{height:64px;padding:0 16px}.logo{font-size:22px}.contact{padding:9px 15px}.hero{padding:42px 18px 20px}.hero h1{font-size:28px}.games{grid-template-columns:1fr}.game{padding:16px}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">🎮 <span id="logoName">游戏</span>导航</div>
+  <a class="contact" id="contactBtn" href="#" target="_blank" rel="noopener">联系客服</a>
+</nav>
+
+<section class="hero">
+  <h1>游戏世界 · 从这里开始</h1>
+  <p>精选热门游戏，一键启动</p>
+</section>
+
+<main class="wrap">
+  <div class="title"><h2>🔥 游戏推荐</h2><span class="more">点击开始游戏</span></div>
+  <div class="games" id="games"></div>
+</main>
+<footer class="footer">游戏导航 · Cloudflare 版</footer>
+
+<button class="admin-hidden" onclick="openAdmin()">管理</button>
 
 <div class="overlay" id="login"><div class="panel login"><div class="head"><h2>管理员登录</h2><button class="close" onclick="closeLayer('login')">关闭</button></div><input id="pw" type="password" placeholder="管理员密码" style="width:100%;padding:12px;background:#071225;color:#fff;border:1px solid #ffffff20;border-radius:8px"><button class="save" onclick="login()">进入后台</button></div></div>
 
-<div class="overlay" id="adminPanel"><div class="panel"><div class="head"><h2>⚙️ 后台管理</h2><button class="close" onclick="closeLayer('adminPanel')">关闭</button></div>
+<div class="overlay" id="adminPanel"><div class="panel">
+<div class="head"><h2>⚙️ 后台管理</h2><button class="close" onclick="closeLayer('adminPanel')">关闭</button></div>
 <div class="form">
-<div class="box"><h3>网站设置</h3><label>网站名称</label><input id="siteName"><label>主题颜色</label><input id="accent" type="color"><label>背景图片地址</label><input id="bgUrl" placeholder="粘贴图片直链，例如 https://.../bg.jpg" oninput="document.getElementById('bgPreview').src=this.value"><div class="hint">本免费版不绑定 R2，因此图片采用“图片直链”方式。你可以使用已有图片直链，后台随时替换。</div><img id="bgPreview" class="preview"><button class="save" onclick="saveSite()">保存网站设置</button></div>
-<div class="box"><h3>游戏管理</h3><div class="hint">每个游戏都可以在线修改：名称、简介、图标图片直链、游戏链接、分类和排序。</div><div id="adminGames"></div><button class="save" onclick="addGame()">＋ 添加游戏</button></div></div></div></div>
+<div class="box"><h3>网站设置</h3><label>网站名称</label><input id="siteName"><label>主题颜色</label><input id="accent" type="color"><label>背景图片地址</label><input id="bgUrl" placeholder="粘贴图片直链" oninput="document.getElementById('bgPreview').src=this.value"><div class="hint">免费版使用图片直链，不需要 R2。</div><img id="bgPreview" class="preview"><label>联系客服链接</label><input id="contactUrl" placeholder="例如 https://t.me/xxxx 或你的客服链接"><button class="save" onclick="saveSite()">保存网站设置</button></div>
+<div class="box"><h3>游戏管理</h3><div class="hint">在线修改游戏名称、简介、图标直链、启动链接和分类。</div><div id="adminGames"></div><button class="save" onclick="addGame()">＋ 添加游戏</button></div>
+</div></div></div>
+
 <script>
 let data={settings:{},games:[]},token=sessionStorage.getItem("gameNavToken")||"";
 async function getData(){const r=await fetch("/api/site");data=await r.json();apply();render()}
-function apply(){const s=data.settings||{};document.documentElement.style.setProperty("--a",s.accent||"#3488ff");document.title=s.site_name||"游戏导航";document.body.style.backgroundImage=s.background_url?`url("${s.background_url}")`:"none";document.querySelector(".logo").innerHTML="🎮 <span>"+(s.site_name||"游戏导航").replace("导航","")+"</span>导航"}
-function render(){const q=(document.getElementById("q").value||"").toLowerCase();document.getElementById("cats").innerHTML=["全部","热门游戏","角色扮演","动作冒险","策略塔防","休闲益智","体育竞技"].map((x,i)=>`<div class="cat ${i===0?"active":""}" onclick="filterCat(this,'${x}')">${x}</div>`).join("");document.getElementById("games").innerHTML=(data.games||[]).filter(g=>g.name.toLowerCase().includes(q)).map(g=>`<article class="game"><img class="icon" src="${g.icon_url||''}"><div><h3>${esc(g.name)}</h3><p>${esc(g.description)}</p></div><button class="play" onclick="location.href='${esc(g.game_url)}'">开始游戏</button></article>`).join("")}
-function filterCat(el,c){document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));el.classList.add("active");const q=(document.getElementById("q").value||"").toLowerCase();document.getElementById("games").innerHTML=data.games.filter(g=>(c==="全部"||g.category===c)&&g.name.toLowerCase().includes(q)).map(g=>`<article class="game"><img class="icon" src="${g.icon_url||''}"><div><h3>${esc(g.name)}</h3><p>${esc(g.description)}</p></div><button class="play" onclick="location.href='${esc(g.game_url)}'">开始游戏</button></article>`).join("")}
+function apply(){
+ const s=data.settings||{};
+ document.documentElement.style.setProperty("--a",s.accent||"#3488ff");
+ document.title=s.site_name||"游戏导航";
+ document.body.style.backgroundImage=s.background_url?`url("${s.background_url}")`:"none";
+ const name=s.site_name||"游戏导航";
+ document.getElementById("logoName").textContent=name.replace("导航","");
+ const c=s.contact_url||"#";
+ document.getElementById("contactBtn").href=c;
+}
+function render(){
+ const games=data.games||[];
+ document.getElementById("games").innerHTML=games.length?games.map(g=>`
+ <article class="game">
+   <div class="game-top">
+     <img class="icon" src="${esc(g.icon_url||'')}" onerror="this.style.visibility='hidden'">
+     <div><h3>${esc(g.name)}</h3><p>${esc(g.description||"")}</p></div>
+   </div>
+   <button class="play" onclick="location.href='${esc(g.game_url||'#')}'">▶ 开始游戏</button>
+ </article>`).join(""):`<div class="empty">暂时没有游戏</div>`;
+}
 function openAdmin(){if(token){loadAdmin();return}document.getElementById("login").style.display="block"}
 function closeLayer(id){document.getElementById(id).style.display="none"}
 async function login(){const p=document.getElementById("pw").value;const r=await fetch("/api/login",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({password:p})});if(!r.ok)return alert("密码错误");token=p;sessionStorage.setItem("gameNavToken",token);closeLayer("login");loadAdmin()}
 function headers(){return {"content-type":"application/json","authorization":"Bearer "+token}}
-function loadAdmin(){const s=data.settings;document.getElementById("siteName").value=s.site_name||"游戏导航";document.getElementById("accent").value=s.accent||"#3488ff";document.getElementById("bgUrl").value=s.background_url||"";document.getElementById("bgPreview").src=s.background_url||"";document.getElementById("adminPanel").style.display="block";document.getElementById("adminGames").innerHTML=data.games.map(g=>`<div class="row"><img src="${esc(g.icon_url||'')}"><input value="${esc(g.name)}" id="n${g.id}" placeholder="游戏名称"><input value="${esc(g.description)}" id="d${g.id}" placeholder="游戏简介"><input value="${esc(g.icon_url)}" id="i${g.id}" placeholder="图标图片直链"><input value="${esc(g.game_url)}" id="u${g.id}" placeholder="游戏链接"><select id="c${g.id}"><option ${g.category==='全部'?'selected':''}>全部</option><option ${g.category==='热门游戏'?'selected':''}>热门游戏</option><option ${g.category==='角色扮演'?'selected':''}>角色扮演</option><option ${g.category==='动作冒险'?'selected':''}>动作冒险</option><option ${g.category==='策略塔防'?'selected':''}>策略塔防</option><option ${g.category==='休闲益智'?'selected':''}>休闲益智</option><option ${g.category==='体育竞技'?'selected':''}>体育竞技</option></select><button class="danger" onclick="delGame(${g.id})">删</button><button class="save" onclick="editGame(${g.id})">保存</button></div>`).join("")}
-async function saveSite(){const body={site_name:document.getElementById("siteName").value,accent:document.getElementById("accent").value,background_url:document.getElementById("bgUrl").value,logo_url:""};const r=await fetch("/api/site",{method:"PUT",headers:headers(),body:JSON.stringify(body)});if(!r.ok)return alert("保存失败");await getData();loadAdmin();alert("网站设置已保存")}
-async function editGame(id){const body={name:document.getElementById("n"+id).value,description:document.getElementById("d"+id).value,icon_url:document.getElementById("i"+id).value,game_url:document.getElementById("u"+id).value,category:document.getElementById("c"+id).value,sort_order:(data.games.find(x=>x.id===id)||{}).sort_order||0,enabled:1};const r=await fetch("/api/games/"+id,{method:"PUT",headers:headers(),body:JSON.stringify(body)});if(!r.ok)return alert("保存失败");await getData();loadAdmin()}
+function loadAdmin(){
+ const s=data.settings||{};
+ document.getElementById("siteName").value=s.site_name||"游戏导航";
+ document.getElementById("accent").value=s.accent||"#3488ff";
+ document.getElementById("bgUrl").value=s.background_url||"";
+ document.getElementById("bgPreview").src=s.background_url||"";
+ document.getElementById("contactUrl").value=s.contact_url||"";
+ document.getElementById("adminPanel").style.display="block";
+ document.getElementById("adminGames").innerHTML=(data.games||[]).map(g=>`
+ <div class="row"><img src="${esc(g.icon_url||'')}"><input value="${esc(g.name)}" id="n${g.id}" placeholder="游戏名称"><input value="${esc(g.description)}" id="d${g.id}" placeholder="游戏简介"><input value="${esc(g.icon_url)}" id="i${g.id}" placeholder="图标图片直链"><input value="${esc(g.game_url)}" id="u${g.id}" placeholder="游戏链接"><select id="c${g.id}"><option ${g.category==='全部'?'selected':''}>全部</option><option ${g.category==='热门游戏'?'selected':''}>热门游戏</option><option ${g.category==='角色扮演'?'selected':''}>角色扮演</option><option ${g.category==='动作冒险'?'selected':''}>动作冒险</option><option ${g.category==='策略塔防'?'selected':''}>策略塔防</option><option ${g.category==='休闲益智'?'selected':''}>休闲益智</option><option ${g.category==='体育竞技'?'selected':''}>体育竞技</option></select><button class="danger" onclick="delGame(${g.id})">删</button><button class="save" onclick="editGame(${g.id})">保存</button></div>`).join("");
+}
+async function saveSite(){
+ const body={site_name:document.getElementById("siteName").value,accent:document.getElementById("accent").value,background_url:document.getElementById("bgUrl").value,logo_url:"",contact_url:document.getElementById("contactUrl").value};
+ const r=await fetch("/api/site",{method:"PUT",headers:headers(),body:JSON.stringify(body)});
+ if(!r.ok)return alert("保存失败");
+ await getData();loadAdmin();alert("网站设置已保存");
+}
+async function editGame(id){
+ const old=data.games.find(x=>x.id===id)||{};
+ const body={name:document.getElementById("n"+id).value,description:document.getElementById("d"+id).value,icon_url:document.getElementById("i"+id).value,game_url:document.getElementById("u"+id).value,category:document.getElementById("c"+id).value,sort_order:old.sort_order||0,enabled:1};
+ const r=await fetch("/api/games/"+id,{method:"PUT",headers:headers(),body:JSON.stringify(body)});
+ if(!r.ok)return alert("保存失败");await getData();loadAdmin();
+}
 async function delGame(id){if(!confirm("确定删除？"))return;await fetch("/api/games/"+id,{method:"DELETE",headers:headers()});await getData();loadAdmin()}
 async function addGame(){const r=await fetch("/api/games",{method:"POST",headers:headers(),body:JSON.stringify({name:"新游戏",description:"填写游戏简介",icon_url:"",game_url:"#",category:"全部",sort_order:data.games.length+1})});if(!r.ok)return alert("添加失败");await getData();loadAdmin()}
 function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll('"',"&quot;").replaceAll("<","&lt;").replaceAll(">","&gt;")}
 getData();
-</script></body></html>
+</script>
+</body></html>
