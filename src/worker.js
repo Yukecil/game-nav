@@ -95,8 +95,8 @@ export default {
 
     // Hidden admin route. /#/admin is intentionally not used.
     if (url.pathname === "/admin" || url.pathname === "/admin/") {
-      return env.ASSETS.fetch(new Request(new URL("/admin.html", request.url), request));
-    }
+  return env.ASSETS.fetch(new URL("/admin.html", request.url));
+}
 
     return env.ASSETS.fetch(request);
   }
