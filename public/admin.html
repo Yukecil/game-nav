@@ -4,49 +4,971 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>后台管理</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#07101f;color:#eef5ff;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}.wrap{max-width:1050px;margin:auto;padding:20px}.panel{background:#0d192c;border:1px solid #ffffff16;border-radius:18px;padding:20px;box-shadow:0 16px 40px #0005;margin-bottom:18px}.head{display:flex;justify-content:space-between;align-items:center}.head h1{font-size:23px;margin:0}.muted{color:#8fa2bf;font-size:13px}.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}.box{background:#ffffff06;border:1px solid #ffffff12;border-radius:12px;padding:15px}label{display:block;font-size:13px;color:#aebdd1;margin-top:10px}input,select{width:100%;margin-top:6px;padding:11px;border-radius:9px;background:#071225;color:#fff;border:1px solid #ffffff20}button{border:0;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:#3488ff;color:#fff;width:100%;margin-top:12px}.danger{background:#ef476f;color:#fff}.close{background:#ffffff12;color:#fff}.save{background:#3488ff;color:#fff}.preview{width:100%;height:110px;object-fit:cover;border-radius:10px;background:#071225;margin-top:8px}.game{border-top:1px solid #ffffff10;padding:14px 0}.grid{display:grid;grid-template-columns:60px 1fr 1.2fr 1.5fr 1.5fr 100px;gap:8px;align-items:center}.game img{width:52px;height:52px;border-radius:10px;object-fit:cover;background:#13213a}.actions{display:flex;gap:6px}.login{max-width:420px;margin:12vh auto}.hidden{display:none!important}@media(max-width:760px){.form{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.grid .wide{grid-column:1/-1}.game img{width:58px;height:58px}}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#07101f;
+  color:#eef5ff;
+  font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif
+}
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  padding:20px
+}
+
+.panel{
+  background:#0d192c;
+  border:1px solid #ffffff16;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 16px 40px #0005;
+  margin-bottom:18px
+}
+
+.head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px
+}
+
+.head h1{
+  font-size:23px;
+  margin:0
+}
+
+.muted{
+  color:#8fa2bf;
+  font-size:13px
+}
+
+.form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px
+}
+
+.box{
+  background:#ffffff06;
+  border:1px solid #ffffff12;
+  border-radius:12px;
+  padding:15px
+}
+
+label{
+  display:block;
+  font-size:13px;
+  color:#aebdd1;
+  margin-top:10px
+}
+
+input,select{
+  width:100%;
+  margin-top:6px;
+  padding:11px;
+  border-radius:9px;
+  background:#071225;
+  color:#fff;
+  border:1px solid #ffffff20
+}
+
+input[type="color"]{
+  height:44px;
+  padding:4px
+}
+
+button{
+  border:0;
+  border-radius:9px;
+  padding:10px 14px;
+  font-weight:700;
+  cursor:pointer
+}
+
+.primary{
+  background:#3488ff;
+  color:#fff;
+  width:100%;
+  margin-top:12px
+}
+
+.danger{
+  background:#ef476f;
+  color:#fff
+}
+
+.close{
+  background:#ffffff12;
+  color:#fff
+}
+
+.save{
+  background:#3488ff;
+  color:#fff
+}
+
+.test{
+  background:#ffffff12;
+  color:#fff;
+  text-decoration:none;
+  display:inline-block;
+  text-align:center
+}
+
+.preview{
+  width:100%;
+  height:110px;
+  object-fit:cover;
+  border-radius:10px;
+  background:#071225;
+  margin-top:8px
+}
+
+.login{
+  max-width:420px;
+  margin:12vh auto
+}
+
+.hidden{
+  display:none!important
+}
+
+.game{
+  border-top:1px solid #ffffff10;
+  padding:16px 0
+}
+
+.game:first-child{
+  border-top:0
+}
+
+.game-grid{
+  display:grid;
+  grid-template-columns:70px 1fr 1fr;
+  gap:12px;
+  align-items:start
+}
+
+.game-icon{
+  width:62px;
+  height:62px;
+  border-radius:13px;
+  object-fit:cover;
+  background:#13213a;
+  border:1px solid #ffffff12
+}
+
+.game-fields{
+  display:grid;
+  gap:8px
+}
+
+.game-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  align-items:center
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#071225;
+  border:1px solid #ffffff14;
+  padding:8px 10px;
+  border-radius:9px
+}
+
+.status label{
+  margin:0;
+  color:#fff;
+  font-size:13px
+}
+
+.status input{
+  width:auto;
+  margin:0
+}
+
+.sort{
+  width:100px
+}
+
+.tip{
+  margin-top:10px;
+  padding:10px 12px;
+  background:#3488ff12;
+  border:1px solid #3488ff25;
+  border-radius:10px;
+  color:#9eb8dc;
+  font-size:12px;
+  line-height:1.6
+}
+
+@media(max-width:760px){
+
+  .wrap{
+    padding:12px
+  }
+
+  .panel{
+    padding:15px
+  }
+
+  .form{
+    grid-template-columns:1fr
+  }
+
+  .game-grid{
+    grid-template-columns:62px 1fr
+  }
+
+  .game-fields{
+    grid-column:1/-1
+  }
+
+  .game-actions{
+    grid-column:1/-1
+  }
+
+  .sort{
+    width:100%
+  }
+
+  .head{
+    align-items:flex-start
+  }
+
+  .head h1{
+    font-size:20px
+  }
+
+}
+
+@media(max-width:480px){
+
+  .head{
+    flex-direction:column
+  }
+
+  .head button{
+    width:100%
+  }
+
+  .game-actions button,
+  .game-actions a{
+    flex:1
+  }
+
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
+
+  <!-- 登录 -->
   <section class="panel login" id="loginPanel">
-    <div class="head"><h1>🔐 后台管理</h1></div>
+
+    <div class="head">
+      <h1>🔐 后台管理</h1>
+    </div>
+
     <p class="muted">请输入管理员密码</p>
-    <input id="pw" type="password" placeholder="管理员密码" autocomplete="current-password">
-    <button class="primary" onclick="login()">进入后台</button>
+
+    <input
+      id="pw"
+      type="password"
+      placeholder="管理员密码"
+      autocomplete="current-password"
+      onkeydown="if(event.key==='Enter')login()"
+    >
+
+    <button class="primary" onclick="login()">
+      进入后台
+    </button>
+
   </section>
+
+
+  <!-- 后台 -->
   <div id="admin" class="hidden">
+
+    <!-- 网站设置 -->
     <section class="panel">
-      <div class="head"><div><h1>🎮 网站设置</h1><p class="muted">这里不会出现在网站首页，只能通过后台地址进入。</p></div><button class="close" onclick="location.href='/'">返回网站</button></div>
-      <div class="form">
-        <div class="box">
-          <label>网站名称</label><input id="siteName">
-          <label>主题颜色</label><input id="accent" type="color">
-          <label>背景图片直链</label><input id="bgUrl" placeholder="https://..." oninput="document.getElementById('bgPreview').src=this.value">
-          <img id="bgPreview" class="preview">
-          <label>联系客服链接</label><input id="contactUrl" placeholder="https://...">
-          <button class="primary" onclick="saveSite()">保存网站设置</button>
+
+      <div class="head">
+
+        <div>
+          <h1>🎮 网站设置</h1>
+          <p class="muted">
+            这里不会出现在网站首页，只能通过后台地址进入。
+          </p>
         </div>
-        <div class="box"><h3>使用说明</h3><p class="muted">首页只显示网站名称、联系客服和游戏列表。</p><p class="muted">游戏的启动按钮会直接打开你填写的链接。图标和背景继续使用图片直链，不需要 R2。</p><p class="muted">以后换成你的自定义域名后，后台地址就是你的域名 + /admin。</p></div>
+
+        <div style="display:flex;gap:8px">
+          <button class="close" onclick="location.href='/'">
+            返回网站
+          </button>
+
+          <button class="danger" onclick="logout()">
+            退出登录
+          </button>
+        </div>
+
       </div>
+
+
+      <div class="form">
+
+        <div class="box">
+
+          <label>网站名称</label>
+          <input id="siteName" placeholder="例如：Yukecil导航">
+
+          <label>主题颜色</label>
+          <input id="accent" type="color">
+
+          <label>背景图片直链</label>
+          <input
+            id="bgUrl"
+            placeholder="https://..."
+            oninput="previewBg()"
+          >
+
+          <img id="bgPreview" class="preview">
+
+          <label>联系客服链接</label>
+          <input
+            id="contactUrl"
+            placeholder="https://..."
+          >
+
+          <button class="primary" onclick="saveSite()">
+            保存网站设置
+          </button>
+
+        </div>
+
+
+        <div class="box">
+
+          <h3>使用说明</h3>
+
+          <p class="muted">
+            首页只显示网站名称、联系客服和游戏列表。
+          </p>
+
+          <p class="muted">
+            游戏启动按钮会直接打开你填写的游戏链接。
+          </p>
+
+          <p class="muted">
+            图标和背景继续使用图片直链，不需要 R2。
+          </p>
+
+          <p class="muted">
+            后台地址：
+            <br>
+            <b style="color:#fff">你的域名/admin</b>
+          </p>
+
+          <div class="tip">
+            💡 游戏设置为“下架”后，后台仍然可以编辑，
+            但不会显示在首页。
+          </div>
+
+        </div>
+
+      </div>
+
     </section>
-    <section class="panel"><div class="head"><div><h1>🎮 游戏管理</h1><p class="muted">修改名称、简介、图标直链、启动链接。</p></div><button class="save" onclick="addGame()">＋ 添加游戏</button></div><div id="games"></div></section>
+
+
+    <!-- 游戏管理 -->
+    <section class="panel">
+
+      <div class="head">
+
+        <div>
+          <h1>🎮 游戏管理</h1>
+
+          <p class="muted">
+            管理游戏名称、简介、图标、启动链接、上架状态和排序。
+          </p>
+        </div>
+
+        <button class="save" onclick="addGame()">
+          ＋ 添加游戏
+        </button>
+
+      </div>
+
+      <div id="games"></div>
+
+    </section>
+
   </div>
+
 </div>
+
+
 <script>
-let data={settings:{},games:[]},token=sessionStorage.getItem('gameNavToken')||'';
-function headers(){return {'content-type':'application/json','authorization':'Bearer '+token}}
-async function api(url,opt={}){return fetch(url,opt)}
-async function login(){const p=document.getElementById('pw').value;if(!p)return alert('请输入密码');const r=await api('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password:p})});if(!r.ok)return alert('密码错误');token=p;sessionStorage.setItem('gameNavToken',token);await load();}
-async function load(){const r=await api('/api/site');data=await r.json();document.getElementById('loginPanel').classList.add('hidden');document.getElementById('admin').classList.remove('hidden');fill();renderGames();}
-function fill(){const s=data.settings||{};document.getElementById('siteName').value=s.site_name||'游戏导航';document.getElementById('accent').value=s.accent||'#3488ff';document.getElementById('bgUrl').value=s.background_url||'';document.getElementById('bgPreview').src=s.background_url||'';document.getElementById('contactUrl').value=s.contact_url||'';}
-async function saveSite(){const body={site_name:document.getElementById('siteName').value,accent:document.getElementById('accent').value,background_url:document.getElementById('bgUrl').value,logo_url:'',contact_url:document.getElementById('contactUrl').value};const r=await api('/api/site',{method:'PUT',headers:headers(),body:JSON.stringify(body)});if(!r.ok)return alert('保存失败');await load();alert('保存成功');}
-function renderGames(){document.getElementById('games').innerHTML=(data.games||[]).map(g=>`<div class="game"><div class="grid"><img src="${esc(g.icon_url||'')}" onerror="this.style.visibility='hidden'"><input id="n${g.id}" value="${esc(g.name)}" placeholder="游戏名称"><input id="d${g.id}" value="${esc(g.description)}" placeholder="游戏简介"><input id="i${g.id}" value="${esc(g.icon_url)}" placeholder="图标直链"><input id="u${g.id}" value="${esc(g.game_url)}" placeholder="启动链接"><div class="actions"><button class="save" onclick="editGame(${g.id})">保存</button><button class="danger" onclick="delGame(${g.id})">删除</button></div></div></div>`).join('')||'<p class="muted">暂无游戏</p>';}
-async function editGame(id){const old=data.games.find(x=>x.id===id)||{};const body={name:document.getElementById('n'+id).value,description:document.getElementById('d'+id).value,icon_url:document.getElementById('i'+id).value,game_url:document.getElementById('u'+id).value,category:old.category||'全部',sort_order:old.sort_order||0,enabled:1};const r=await api('/api/games/'+id,{method:'PUT',headers:headers(),body:JSON.stringify(body)});if(!r.ok)return alert('保存失败');await load();}
-async function delGame(id){if(!confirm('确定删除这个游戏？'))return;const r=await api('/api/games/'+id,{method:'DELETE',headers:headers()});if(!r.ok)return alert('删除失败');await load();}
-async function addGame(){const r=await api('/api/games',{method:'POST',headers:headers(),body:JSON.stringify({name:'新游戏',description:'填写游戏简介',icon_url:'',game_url:'#',category:'全部',sort_order:(data.games||[]).length+1})});if(!r.ok)return alert('添加失败');await load();}
-function esc(s){return String(s??'').replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll("'",'&#39;')}
-if(token){load().catch(()=>{sessionStorage.removeItem('gameNavToken');token=''})}
+
+let data={
+  settings:{},
+  games:[]
+};
+
+let token=sessionStorage.getItem('gameNavToken')||'';
+
+
+/* 请求头 */
+function headers(){
+  return {
+    'content-type':'application/json',
+    'authorization':'Bearer '+token
+  };
+}
+
+
+/* API */
+async function api(url,opt={}){
+  return fetch(url,opt);
+}
+
+
+/* 登录 */
+async function login(){
+
+  const p=document.getElementById('pw').value.trim();
+
+  if(!p){
+    alert('请输入密码');
+    return;
+  }
+
+  try{
+
+    const r=await api('/api/login',{
+      method:'POST',
+      headers:{
+        'content-type':'application/json'
+      },
+      body:JSON.stringify({
+        password:p
+      })
+    });
+
+    if(!r.ok){
+      alert('密码错误');
+      return;
+    }
+
+    token=p;
+
+    sessionStorage.setItem(
+      'gameNavToken',
+      token
+    );
+
+    await load();
+
+  }catch(e){
+
+    alert('登录失败，请检查网络');
+
+  }
+
+}
+
+
+/* 退出 */
+function logout(){
+
+  sessionStorage.removeItem('gameNavToken');
+
+  token='';
+
+  location.reload();
+
+}
+
+
+/* 加载 */
+async function load(){
+
+  try{
+
+    const r=await api('/api/site');
+
+    if(!r.ok){
+      throw new Error('load failed');
+    }
+
+    data=await r.json();
+
+    document
+      .getElementById('loginPanel')
+      .classList.add('hidden');
+
+    document
+      .getElementById('admin')
+      .classList.remove('hidden');
+
+    fill();
+
+    renderGames();
+
+  }catch(e){
+
+    sessionStorage.removeItem('gameNavToken');
+
+    token='';
+
+    document
+      .getElementById('loginPanel')
+      .classList.remove('hidden');
+
+    document
+      .getElementById('admin')
+      .classList.add('hidden');
+
+  }
+
+}
+
+
+/* 网站设置 */
+function fill(){
+
+  const s=data.settings||{};
+
+  document.getElementById('siteName').value=
+    s.site_name||'游戏导航';
+
+  document.getElementById('accent').value=
+    s.accent||'#3488ff';
+
+  document.getElementById('bgUrl').value=
+    s.background_url||'';
+
+  document.getElementById('bgPreview').src=
+    s.background_url||'';
+
+  document.getElementById('contactUrl').value=
+    s.contact_url||'';
+
+}
+
+
+/* 背景预览 */
+function previewBg(){
+
+  const url=document.getElementById('bgUrl').value.trim();
+
+  document.getElementById('bgPreview').src=url;
+
+}
+
+
+/* 保存网站 */
+async function saveSite(){
+
+  const body={
+    site_name:
+      document.getElementById('siteName').value.trim(),
+
+    accent:
+      document.getElementById('accent').value,
+
+    background_url:
+      document.getElementById('bgUrl').value.trim(),
+
+    logo_url:'',
+
+    contact_url:
+      document.getElementById('contactUrl').value.trim()
+  };
+
+  const r=await api('/api/site',{
+    method:'PUT',
+    headers:headers(),
+    body:JSON.stringify(body)
+  });
+
+  if(!r.ok){
+    alert('保存失败');
+    return;
+  }
+
+  await load();
+
+  alert('保存成功');
+
+}
+
+
+/* 游戏列表 */
+function renderGames(){
+
+  const box=document.getElementById('games');
+
+  const games=data.games||[];
+
+  if(!games.length){
+
+    box.innerHTML=
+      '<p class="muted">暂无游戏</p>';
+
+    return;
+  }
+
+
+  box.innerHTML=games.map(g=>{
+
+    const enabled=
+      Number(g.enabled)===1;
+
+    const icon=
+      g.icon_url||
+      '';
+
+    return `
+
+      <div class="game">
+
+        <div class="game-grid">
+
+          <!-- 图标 -->
+          <img
+            class="game-icon"
+            id="icon${g.id}"
+            src="${esc(icon)}"
+            onerror="this.style.visibility='hidden'"
+          >
+
+
+          <!-- 第一列 -->
+          <div class="game-fields">
+
+            <input
+              id="n${g.id}"
+              value="${esc(g.name)}"
+              placeholder="游戏名称"
+            >
+
+            <input
+              id="d${g.id}"
+              value="${esc(g.description)}"
+              placeholder="游戏简介"
+            >
+
+            <input
+              id="i${g.id}"
+              value="${esc(g.icon_url)}"
+              placeholder="图标直链"
+              oninput="updateIcon(${g.id})"
+            >
+
+          </div>
+
+
+          <!-- 第二列 -->
+          <div class="game-fields">
+
+            <input
+              id="u${g.id}"
+              value="${esc(g.game_url)}"
+              placeholder="启动链接"
+            >
+
+            <div style="display:flex;gap:8px">
+
+              <input
+                class="sort"
+                id="s${g.id}"
+                type="number"
+                value="${Number(g.sort_order||0)}"
+                placeholder="排序"
+              >
+
+              <select id="c${g.id}">
+                <option value="全部" ${g.category==='全部'?'selected':''}>
+                  全部
+                </option>
+                <option value="游戏" ${g.category==='游戏'?'selected':''}>
+                  游戏
+                </option>
+              </select>
+
+            </div>
+
+
+            <div class="status">
+
+              <input
+                id="e${g.id}"
+                type="checkbox"
+                ${enabled?'checked':''}
+              >
+
+              <label for="e${g.id}">
+                ${enabled?'🟢 已上架':'⚪ 已下架'}
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <!-- 操作 -->
+          <div class="game-actions">
+
+            <button
+              class="save"
+              onclick="editGame(${g.id})"
+            >
+              保存
+            </button>
+
+            <a
+              class="test"
+              href="${esc(g.game_url||'#')}"
+              target="_blank"
+              rel="noopener"
+            >
+              🔗 测试
+            </a>
+
+            <button
+              class="danger"
+              onclick="delGame(${g.id})"
+            >
+              删除
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join('');
+
+}
+
+
+/* 图标实时预览 */
+function updateIcon(id){
+
+  const url=
+    document.getElementById('i'+id).value.trim();
+
+  const img=
+    document.getElementById('icon'+id);
+
+  if(url){
+
+    img.style.visibility='visible';
+
+    img.src=url;
+
+  }else{
+
+    img.style.visibility='hidden';
+
+  }
+
+}
+
+
+/* 保存游戏 */
+async function editGame(id){
+
+  const old=
+    data.games.find(x=>x.id===id)||{};
+
+  const enabled=
+    document.getElementById('e'+id).checked;
+
+  const body={
+
+    name:
+      document.getElementById('n'+id).value.trim(),
+
+    description:
+      document.getElementById('d'+id).value.trim(),
+
+    icon_url:
+      document.getElementById('i'+id).value.trim(),
+
+    game_url:
+      document.getElementById('u'+id).value.trim(),
+
+    category:
+      document.getElementById('c'+id).value,
+
+    sort_order:
+      Number(
+        document.getElementById('s'+id).value||0
+      ),
+
+    enabled:
+      enabled
+
+  };
+
+
+  const r=await api(
+    '/api/games/'+id,
+    {
+      method:'PUT',
+      headers:headers(),
+      body:JSON.stringify(body)
+    }
+  );
+
+
+  if(!r.ok){
+
+    alert('保存失败');
+
+    return;
+
+  }
+
+
+  await load();
+
+  alert(
+    enabled
+      ? '保存成功，游戏已上架'
+      : '保存成功，游戏已下架'
+  );
+
+}
+
+
+/* 添加游戏 */
+async function addGame(){
+
+  const r=await api(
+    '/api/games',
+    {
+      method:'POST',
+      headers:headers(),
+
+      body:JSON.stringify({
+
+        name:'新游戏',
+
+        description:'填写游戏简介',
+
+        icon_url:'',
+
+        game_url:'#',
+
+        category:'全部',
+
+        sort_order:
+          (data.games||[]).length+1
+
+      })
+    }
+  );
+
+
+  if(!r.ok){
+
+    alert('添加失败');
+
+    return;
+
+  }
+
+
+  await load();
+
+}
+
+
+/* 删除游戏 */
+async function delGame(id){
+
+  if(!confirm('确定删除这个游戏？')){
+
+    return;
+
+  }
+
+
+  const r=await api(
+    '/api/games/'+id,
+    {
+      method:'DELETE',
+      headers:headers()
+    }
+  );
+
+
+  if(!r.ok){
+
+    alert('删除失败');
+
+    return;
+
+  }
+
+
+  await load();
+
+}
+
+
+/* HTML 转义 */
+function esc(s){
+
+  return String(s??'')
+
+    .replaceAll('&','&amp;')
+
+    .replaceAll('"','&quot;')
+
+    .replaceAll('<','&lt;')
+
+    .replaceAll('>','&gt;')
+
+    .replaceAll("'",'&#39;');
+
+}
+
+
+/* 自动恢复登录 */
+if(token){
+
+  load().catch(()=>{
+
+    sessionStorage.removeItem(
+      'gameNavToken'
+    );
+
+    token='';
+
+  });
+
+}
+
 </script>
-</body></html>
+
+</body>
+</html>
