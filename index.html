@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>游戏导航</title>
+<style>
+:root{--a:#3488ff;--card:rgba(15,27,48,.88);--muted:#9eb0ca}
+*{box-sizing:border-box}
+body{margin:0;color:#eef5ff;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#050b17 center/cover fixed no-repeat;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:linear-gradient(180deg,#020a1c55,#020816f7 85%);z-index:-1}
+nav{height:70px;padding:0 5%;display:flex;align-items:center;background:#040d1fcc;backdrop-filter:blur(16px);position:sticky;top:0;z-index:5;border-bottom:1px solid #ffffff18}
+.logo{font-size:25px;font-weight:800;letter-spacing:.5px}.logo span{color:var(--a)}
+.contact{margin-left:auto;border:1px solid #ffffff28;background:linear-gradient(135deg,var(--a),#6d55ff);color:#fff;border-radius:22px;padding:10px 20px;font-weight:700;cursor:pointer;text-decoration:none;box-shadow:0 8px 24px #0005}
+.wrap{max-width:1050px;margin:auto;padding:30px 20px 70px}
+.heading{display:flex;align-items:center;margin:4px 0 20px}.heading h1{font-size:26px;margin:0}
+.games{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.game{background:var(--card);border:1px solid #ffffff16;border-radius:18px;padding:18px;box-shadow:0 12px 30px #0004;display:flex;flex-direction:column;gap:15px}
+.game-top{display:flex;align-items:center;gap:13px;min-height:70px}.icon{width:62px;height:62px;border-radius:15px;object-fit:cover;background:#13213a;flex:none}.icon.empty{visibility:hidden}
+.game h2{margin:0;font-size:19px}.game p{font-size:12px;color:var(--muted);line-height:1.5;margin:5px 0 0}
+.play{display:block;text-align:center;border:0;background:var(--a);color:white;border-radius:11px;padding:12px 16px;font-weight:800;cursor:pointer;width:100%;font-size:15px;text-decoration:none}.play:active{transform:scale(.98)}
+.empty{text-align:center;color:#8496b2;padding:70px 20px}
+.footer{text-align:center;color:#657894;padding:20px;font-size:12px}
+@media(max-width:760px){.games{grid-template-columns:1fr 1fr}.wrap{padding-left:16px;padding-right:16px}}
+@media(max-width:520px){nav{height:64px;padding:0 16px}.logo{font-size:22px}.contact{padding:9px 15px}.wrap{padding-top:24px}.games{grid-template-columns:1fr}.game{padding:16px}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">🎮 <span id="siteName">游戏</span>导航</div>
+  <a class="contact" id="contactBtn" href="#" target="_blank" rel="noopener">联系客服</a>
+</nav>
+<main class="wrap">
+  <div class="heading"><h1>🔥 游戏推荐</h1></div>
+  <div class="games" id="games"></div>
+</main>
+<footer class="footer">游戏导航</footer>
+<script>
+let data={settings:{},games:[]};
+async function getData(){
+  try{const r=await fetch('/api/site');if(!r.ok)throw new Error();data=await r.json();apply();render();}
+  catch(e){document.getElementById('games').innerHTML='<div class="empty">暂时无法加载游戏</div>';}
+}
+function apply(){
+ const s=data.settings||{};
+ document.documentElement.style.setProperty('--a',s.accent||'#3488ff');
+ document.title=s.site_name||'游戏导航';
+ document.body.style.backgroundImage=s.background_url?`url("${String(s.background_url).replaceAll('"','%22')}")`:'none';
+ const name=s.site_name||'游戏导航';
+ document.getElementById('siteName').textContent=name.endsWith('导航')?name.slice(0,-2):name;
+ const c=s.contact_url||'#';
+ document.getElementById('contactBtn').href=c;
+}
+function render(){
+ const games=data.games||[];
+ document.getElementById('games').innerHTML=games.length?games.map(g=>{
+   const icon=g.icon_url?`<img class="icon" src="${esc(g.icon_url)}" onerror="this.style.visibility='hidden'">`:'<div class="icon empty"></div>';
+   return `<article class="game"><div class="game-top">${icon}<div><h2>${esc(g.name)}</h2><p>${esc(g.description||'')}</p></div></div><a class="play" href="${esc(g.game_url||'#')}" target="_blank" rel="noopener">▶ 启动游戏</a></article>`;
+ }).join(''):'<div class="empty">暂时没有游戏</div>';
+}
+function esc(s){return String(s??'').replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll("'",'&#39;')}
+getData();
+</script>
+</body>
+</html>
