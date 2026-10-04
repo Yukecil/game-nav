@@ -7,9 +7,9 @@
     "directory": "./public"
   },
   "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "game-nav-db",
-      "database_id": "d6a664f1-260f-4583-bb8d-19a741f17301"
+  {
+    "binding": "DB",
+    "database_name": "game-nav-db",
+    "database_id": "d6a664f1-260f-4583-bb8d-19a741f17301"
   }
-}
+]
