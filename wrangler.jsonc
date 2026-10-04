@@ -3,10 +3,17 @@
   "name": "game-nav",
   "main": "src/worker.js",
   "compatibility_date": "2026-10-02",
+
   "assets": {
     "directory": "./public",
-    "run_worker_first": true
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*",
+      "/admin",
+      "/admin/"
+    ]
   },
+
   "d1_databases": [
     {
       "binding": "DB",
