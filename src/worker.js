@@ -13,12 +13,24 @@ async function api(request, env) {
   const path = url.pathname;
 
   if (request.method === "GET" && path === "/api/site") {
-    const settings = await env.DB.prepare("SELECT * FROM settings WHERE id=1").first();
-    const games = await env.DB.prepare(
-      "SELECT id,name,description,icon_url,game_url,category,sort_order,enabled FROM games WHERE enabled=1 ORDER BY sort_order,id"
-    ).all();
-    return json({ settings, games: games.results || [] });
-  }
+  const settings = await env.DB.prepare(
+    "SELECT * FROM settings WHERE id=1"
+  ).first();
+
+  // 后台登录后可以看到全部游戏，包括已下架的
+  const admin = isAdmin(request, env);
+
+  const sql = admin
+    ? "SELECT id,name,description,icon_url,game_url,category,sort_order,enabled FROM games ORDER BY sort_order,id"
+    : "SELECT id,name,description,icon_url,game_url,category,sort_order,enabled FROM games WHERE enabled=1 ORDER BY sort_order,id";
+
+  const games = await env.DB.prepare(sql).all();
+
+  return json({
+    settings,
+    games: games.results || []
+  });
+}
 
   if (request.method === "POST" && path === "/api/login") {
     const body = await request.json().catch(() => ({}));
