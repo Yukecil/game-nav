@@ -55,7 +55,7 @@ function render(){
  const games=data.games||[];
  document.getElementById('games').innerHTML=games.length?games.map(g=>{
    const icon=g.icon_url?`<img class="icon" src="${esc(g.icon_url)}" onerror="this.style.visibility='hidden'">`:'<div class="icon empty"></div>';
-   return `<article class="game"><div class="game-top">${icon}<div><h2>${esc(g.name)}</h2><p>${esc(g.description||'')}</p></div></div><a class="play" href="${esc(g.game_url||'#')}" target="_blank" rel="noopener">▶ 启动游戏</a></article>`;
+   return `<article class="game"><div class="game-top">${icon}<div><h2>${esc(g.name)}</h2><p>${esc(g.description||'')}</p></div></div><a class="play" href="${esc(g.game_url||'#')}" target="_blank" rel="noopener">💎 注册账号</a></article>`;
  }).join(''):'<div class="empty">暂时没有游戏</div>';
 }
 function esc(s){return String(s??'').replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll("'",'&#39;')}
