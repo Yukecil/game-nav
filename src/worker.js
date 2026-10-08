@@ -74,13 +74,16 @@ export default {
        */
 
       if (url.pathname === '/admin' || url.pathname === '/admin/') {
-        return env.ASSETS.fetch(
-          new Request(
-            new URL('/admin.html', req.url),
-            req
-          )
-        );
-      }
+  const adminUrl = new URL(req.url);
+  adminUrl.pathname = '/admin.html';
+
+  return env.ASSETS.fetch(
+    new Request(adminUrl, {
+      method: 'GET',
+      headers: req.headers
+    })
+  );
+}
 
 
       /*
