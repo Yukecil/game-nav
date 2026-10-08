@@ -370,9 +370,9 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
 <div id="contact">
 <div class="top"><div class="logo"><span class="shine">联系客服</span><small>有问题随时联系我们</small></div></div>
 <div class="cs">
-<div class="row"><div class="ic sm"><svg><use href="#i-globe"/></svg></div><div class="info"><b>飞机联系方式</b><span id="tg">@Yukecil1</span></div><a class="go sm" id="contactLink" href="#" target="_blank" rel="noopener">联系</a></div>
-<div class="row"><div class="ic sm"><svg><use href="#i-phones"/></svg></div><div class="info"><b>飞机交流群</b><span id="tgGroup">@yuk88888</span></div><a class="go sm" id="groupLink" href="#" target="_blank" rel="noopener">加入</a></div>
-<div class="row"><div class="ic sm"><svg><use href="#i-tools"/></svg></div><div class="info"><b>双向机器人</b><span id="tgBot">@Sx1108_bot</span></div><a class="go sm" id="botLink" href="#" target="_blank" rel="noopener">打开</a></div>
+<div class="row"><div class="ic sm"><svg><use href="#i-globe"/></svg></div><div class="info"><b>飞机联系方式</b><span id="tg">@Yukecil1</span></div><a class="go sm" id="contactLink" href="#" rel="noopener">联系</a></div>
+<div class="row"><div class="ic sm"><svg><use href="#i-phones"/></svg></div><div class="info"><b>飞机交流群</b><span id="tgGroup">@yuk88888</span></div><a class="go sm" id="groupLink" href="#" rel="noopener">加入</a></div>
+<div class="row"><div class="ic sm"><svg><use href="#i-tools"/></svg></div><div class="info"><b>双向机器人</b><span id="tgBot">@Sx1108_bot</span></div><a class="go sm" id="botLink" href="#" rel="noopener">打开</a></div>
 <div class="row"><div class="ic sm"><svg><use href="#i-note"/></svg></div><div class="info"><b>邮箱</b><span id="em">your@email.com</span></div><a class="go sm" id="emailLink" href="#">发邮件</a></div>
 <div class="row"><div class="ic sm"><svg><use href="#i-chart"/></svg></div><div class="info"><b>服务时间</b><span id="serviceTime">每天 10:00 - 22:00</span></div></div>
 <p class="tip">点击按钮即可打开对应联系方式。</p>
@@ -518,11 +518,27 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
   function renderServiceTime(){
     if(serviceTime) serviceTime.textContent=settings.service_time || '每天 10:00 - 22:00';
   }
+  // Telegram：支持 Yukecil1 / @Yukecil1 / t.me/Yukecil1 / https://t.me/Yukecil1 / 邀请链接
+  function tgId(v){
+    let x=String(v||'').trim();
+    if(!x) return '';
+    x=x.replace(/^tg:\/\/resolve\?domain=/i,'').replace(/^(https?:\/\/)?(www\.)?(t\.me|telegram\.me|telegram\.dog)\//i,'').replace(/^@/,'');
+    x=x.split(/[?#]/)[0].replace(/\/+$/,'');
+    if(/^(\+|joinchat\/)/i.test(x)) return x;
+    return x.split('/')[0];
+  }
   function tgUrl(v){
     const x=String(v||'').trim();
-    if(!x)return '#';
-    if(/^https?:\/\//i.test(x))return x;
-    return 'https://t.me/'+x.replace(/^@/,'');
+    if(!x) return '#';
+    if(/^https?:\/\//i.test(x) && !/(^|\/\/)(www\.)?(t\.me|telegram\.(me|dog))\//i.test(x)) return x;
+    const id=tgId(x);
+    return id?'https://t.me/'+id:'#';
+  }
+  function tgLabel(v){
+    const id=tgId(v);
+    if(!id) return '';
+    if(!/^https:\/\/t\.me\//.test(tgUrl(v))) return '外部链接';
+    return /^(\+|joinchat\/)/i.test(id)?'邀请链接':'@'+id;
   }
   function renderSiteSettings(){
     if(siteName && settings.site_name) siteName.textContent=settings.site_name;
@@ -531,9 +547,9 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
     const group=settings.telegram_group || '';
     const bot=settings.telegram_bot || '';
     const mail=settings.email || '';
-    if(tg) tg.textContent=personal || '未设置';
-    if(tgGroup) tgGroup.textContent=group || '未设置';
-    if(tgBot) tgBot.textContent=bot || '未设置';
+    if(tg) tg.textContent=tgLabel(personal||settings.contact_url) || '未设置';
+    if(tgGroup) tgGroup.textContent=tgLabel(group) || '未设置';
+    if(tgBot) tgBot.textContent=tgLabel(bot) || '未设置';
     if(em) em.textContent=mail || '未设置';
     if(contactLink){contactLink.href=tgUrl(personal || settings.contact_url); contactLink.style.display=(personal || settings.contact_url)?'inline-flex':'none';}
     if(groupLink){groupLink.href=tgUrl(group); groupLink.style.display=group?'inline-flex':'none';}
@@ -541,10 +557,18 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
     if(emailLink){emailLink.href=mail?'mailto:'+mail:'#'; emailLink.style.display=mail?'inline-flex':'none';}
   }
   function renderHero(){
-    if(settings.announcement_image_url){
-      hero.style.backgroundImage=`url("${String(settings.announcement_image_url).replace(/"/g,'\\"')}")`;
+    const url=settings.announcement_image_url;
+    if(!url) return;
+    // 按图片真实比例显示，完整展示不裁切
+    const img=new Image();
+    img.onload=()=>{
+      if(img.naturalWidth&&img.naturalHeight) hero.style.aspectRatio=img.naturalWidth+'/'+img.naturalHeight;
+      hero.style.backgroundImage=`url("${String(url).replace(/"/g,'\\"')}")`;
+      hero.style.backgroundSize='100% 100%';
       hero.classList.add('has');
-    }
+    };
+    img.onerror=()=>{};
+    img.src=url;
   }
   async function load(){
     try{
@@ -553,12 +577,7 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
       const d=await r.json();
       games=(d.games||[]).filter(g=>g.enabled===undefined||g.enabled);
       settings=d.settings||{};
-      renderGameLoop();
-      renderGames();
-      renderNotice();
-      renderServiceTime();
-      renderHero();
-      renderSiteSettings();
+      [renderGameLoop,renderGames,renderNotice,renderServiceTime,renderHero,renderSiteSettings].forEach(f=>{try{f()}catch(err){console.error(err)}});
     }catch(e){
       renderGameLoop();
       renderGames();
@@ -570,6 +589,7 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
   ['touchend','pointerup','pointercancel','touchcancel'].forEach(ev=>loopStrip.addEventListener(ev,resume,{passive:true}));
   loopStrip.addEventListener('mouseenter',pause);
   loopStrip.addEventListener('mouseleave',resume);
+  [[contactLink,tg],[groupLink,tgGroup],[botLink,tgBot]].forEach(([a,t])=>{if(a&&t&&/^@/.test(t.textContent.trim()))a.href=tgUrl(t.textContent)});
   load();
 })();
 </script>
