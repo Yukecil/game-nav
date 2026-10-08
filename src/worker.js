@@ -63,11 +63,16 @@ button{border:0;border-radius:10px;padding:10px 14px;background:#7658ee;color:#f
       <h2>网站设置</h2>
       <div class="row">
         <div><label>网站名称</label><input id="site_name"></div>
-        <div><label>联系客服链接</label><input id="contact_url" placeholder="例如 https://t.me/xxxx"></div>
+        <div><label>飞机联系方式</label><input id="telegram_contact" placeholder="例如 @Yukecil1"></div>
+        <div><label>飞机交流群</label><input id="telegram_group" placeholder="例如 @yuk88888"></div>
       </div>
       <label>页面背景图直链</label><input id="background_url" placeholder="https://..."><img id="backgroundPreview" class="preview">
       <label>公告图直链</label><input id="announcement_image_url" placeholder="https://..."><img id="announcementPreview" class="preview">
       <label>公告图下面的文字</label><input id="announcement_text" placeholder="例如：Yukecil导航 · 精选设计、开发、AI、素材、学习与效率工具">
+      <div class="row">
+        <div><label>双向机器人</label><input id="telegram_bot" placeholder="例如 @Sx1108_bot"></div>
+        <div><label>客服邮箱</label><input id="email" type="email" placeholder="例如 service@example.com"></div>
+      </div>
       <label>客服服务时间</label><input id="service_time" placeholder="例如：每天 10:00 - 22:00">
       <div class="actions"><button id="saveSettings">保存网站设置</button><button id="logout" class="secondary">退出登录</button></div>
     </div>
@@ -106,7 +111,7 @@ async function load(){
   catch(e){sessionStorage.removeItem('gameNavToken');token='';showLogin();}
 }
 function preview(inputId,imgId){const v=$(inputId).value.trim();const img=$(imgId);if(v){img.src=v;img.style.display='block';img.onerror=()=>img.style.display='none'}else img.style.display='none'}
-function fillSettings(){const s=state.settings||{};['site_name','background_url','announcement_image_url','announcement_text','service_time','contact_url'].forEach(k=>{if($(k))$(k).value=s[k]||''});preview('background_url','backgroundPreview');preview('announcement_image_url','announcementPreview')}
+function fillSettings(){const s=state.settings||{};['site_name','background_url','announcement_image_url','announcement_text','service_time','telegram_contact','telegram_group','telegram_bot','email','contact_url'].forEach(k=>{if($(k))$(k).value=s[k]||''});preview('background_url','backgroundPreview');preview('announcement_image_url','announcementPreview')}
 function renderGames(){
   const box=$('games');
   if(!state.games.length){box.innerHTML='<div class="muted">暂无游戏</div>';return}
@@ -123,7 +128,7 @@ function renderGames(){
   '</div>').join('')
 }
 async function saveSettings(){
-  const b={};['site_name','background_url','announcement_image_url','announcement_text','service_time','contact_url'].forEach(k=>b[k]=$(k).value.trim());
+  const b={};['site_name','background_url','announcement_image_url','announcement_text','service_time','telegram_contact','telegram_group','telegram_bot','email','contact_url'].forEach(k=>b[k]=$(k).value.trim());
   try{await api('/api/site',{method:'PUT',body:JSON.stringify(b)});toast('网站设置已保存');await load()}catch(e){alert(e.message)}
 }
 async function addGame(){
@@ -165,7 +170,7 @@ export default {
       if (url.pathname === '/api/site' && req.method === 'PUT') {
         if (!auth(req, env)) return json({ error: '未授权' }, 401);
         const body = await req.json().catch(() => ({}));
-        const allowed = ['site_name','background_url','announcement_image_url','announcement_text','service_time','contact_url'];
+        const allowed = ['site_name','background_url','announcement_image_url','announcement_text','service_time','telegram_contact','telegram_group','telegram_bot','email','contact_url'];
         for (const key of allowed) {
           if (Object.prototype.hasOwnProperty.call(body, key)) {
             await env.DB.prepare(`UPDATE settings SET ${key}=? WHERE id=1`).bind(String(body[key] ?? '')).run();
