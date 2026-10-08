@@ -71,6 +71,31 @@ input[type=color]{padding:4px}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;padding:12px 20px;border-radius:99px;font-size:14px;font-weight:600;background:rgba(22,16,58,.95);border:1px solid var(--gold);box-shadow:0 14px 34px -8px #000;transition:.25s;z-index:50;pointer-events:none;max-width:90vw}
 .toast.on{opacity:1;transform:translate(-50%,0)}.toast.err{border-color:var(--bad);color:var(--bad)}
 @media(max-width:640px){.g2{grid-template-columns:1fr}.gg{grid-template-columns:1fr}.ta .btn.v{display:none}.stats{gap:8px}.stat strong{font-size:20px}}
+
+/* ===== 宽松布局 ===== */
+.wrap{max-width:680px}
+.seg{display:flex;gap:6px;padding:5px;margin-bottom:20px;border-radius:999px;background:var(--glass);border:1px solid var(--line)}
+.seg button{flex:1;height:40px;border:0;border-radius:999px;background:none;color:var(--sub);font:600 14px inherit;font-family:inherit;cursor:pointer;transition:.2s}
+.seg button.on{color:var(--gold);background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05))}
+.blk{padding:24px 22px 26px;margin-bottom:20px}
+.blk .st{margin-bottom:8px}
+label{margin:22px 0 9px;font-size:13px}
+input,select{height:50px;border-radius:16px}
+.tip{margin-top:16px;padding:14px 16px}
+.preview{margin-top:16px}.link{margin-top:10px}
+.stats{margin-top:20px;gap:12px}.stat{padding:20px 8px}
+.save{margin:4px 0 24px}.save .btn{width:100%;height:50px;font-size:16px}
+.game{padding:0;margin-bottom:14px;overflow:hidden}
+.gtop{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.gm{flex:1;min-width:0}.gm b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm small{display:block;margin-top:5px;font-size:12px;color:var(--sub)}
+.sdot{flex:none;width:9px;height:9px;border-radius:50%;background:#6f6a99}.sdot.ok{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.chev{flex:none;color:var(--sub);font-size:24px;line-height:1;transition:.2s}.game.open .chev{transform:rotate(90deg)}
+.gbody{display:none;padding:2px 20px 22px;border-top:1px solid var(--line)}.game.open .gbody{display:block}
+.gg{display:block}.gg>div{margin:0}.gg label{margin:20px 0 9px}
+.row{margin-top:22px}.acts{margin-top:22px}
+.empty{padding:40px 10px}
+@media(max-width:640px){.wrap{max-width:none}.blk{padding:22px 18px 24px}}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-palette" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M24 6C13 6 6 14 6 24s8 18 17 18c3 0 4-2 3-4-1-3 1-5 4-5h6c4 0 6-3 6-7C42 14 34 6 24 6z"/><circle cx="15" cy="22" r="2.4" fill="currentColor"/><circle cx="21" cy="14" r="2.4" fill="currentColor"/><circle cx="31" cy="15" r="2.4" fill="currentColor"/></symbol><symbol id="i-laptop" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="9" y="10" width="30" height="21" rx="3"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M4 38h40l-3-7H7z"/></symbol><symbol id="i-book" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 8h26a4 4 0 0 1 4 4v28H12a4 4 0 0 1-4-4z"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 36a4 4 0 0 1 4-4h26"/><path d="M16 15h14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol><symbol id="i-phones" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 30V24a16 16 0 0 1 32 0v6"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="28" width="9" height="13" rx="3"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="33" y="28" width="9" height="13" rx="3"/></symbol><symbol id="i-chart" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M7 7v34h34"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M13 32l9-10 7 6 11-14"/></symbol><symbol id="i-tools" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="16" width="36" height="24" rx="4"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M17 16v-4a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4M6 27h36"/></symbol><symbol id="i-globe" viewBox="0 0 48 48"><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="24" cy="24" r="17"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M7 24h34M24 7c-8 9-8 25 0 34M24 7c8 9 8 25 0 34"/></symbol><symbol id="i-pen" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 40l2-9L32 9l7 7-22 22z"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M28 13l7 7"/></symbol><symbol id="i-note" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="9" y="6" width="26" height="36" rx="4"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M16 16h12M16 23h12M16 30h6"/></symbol><symbol id="i-camera" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M6 15h8l3-5h14l3 5h8v24H6z"/><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="24" cy="26" r="7"/></symbol><symbol id="i-home" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M6 22L24 7l18 15"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M11 19v21h26V19"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M20 40V28h8v12"/></symbol><symbol id="i-headset" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 28v-4a16 16 0 0 1 32 0v4"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="26" width="9" height="13" rx="3"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="33" y="26" width="9" height="13" rx="3"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M37 39c0 4-5 5-10 5"/></symbol><symbol id="i-search" viewBox="0 0 48 48"><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="21" cy="21" r="13"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M31 31l11 11"/></symbol></svg>
 <div class="wrap">
@@ -85,45 +110,42 @@ input[type=color]{padding:4px}
 <header class="topbar"><div class="tl"><div class="ic"><svg><use href="#i-tools"/></svg></div><div><b class="shine">Yukecil 控制中心</b><small>网站内容 · 客服 · 公告 · 站点管理</small></div></div>
 <div class="ta"><button class="btn sm v" onclick="location.href='/'">查看首页</button><button class="btn sm bad" onclick="logout()">退出</button></div></header>
 
-<section class="card panel">
-<div class="sh"><div class="st"><div class="ic"><svg><use href="#i-palette"/></svg></div><div><h2>网站设置</h2><p>主页外观、公告与联系方式</p></div></div></div>
-<div class="g2">
-<div class="box"><h3>基础外观</h3>
+<nav class="seg" id="seg"><button data-t="look" class="on">外观</button><button data-t="cs">客服</button><button data-t="sites">站点</button><button data-t="stats">概览</button></nav>
+
+<section class="panel" data-p="look">
+<div class="card blk"><div class="st"><div class="ic"><svg><use href="#i-palette"/></svg></div><div><h2>基础外观</h2><p>名称、主题色与背景</p></div></div>
 <label>网站名称</label><input id="siteName" placeholder="例如：Yukecil导航">
 <label>主题颜色</label><input id="accent" type="color">
 <label>背景图片直链</label><input id="bgUrl" placeholder="https://..." oninput="pv('bgUrl','bgPreview')">
-<img id="bgPreview" class="preview" alt="" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'">
-</div>
-<div class="box"><h3>首页大图 / 公告</h3>
+<img id="bgPreview" class="preview" alt="" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'"></div>
+<div class="card blk"><div class="st"><div class="ic"><svg><use href="#i-note"/></svg></div><div><h2>首页大图与公告</h2><p>主页顶部展示的内容</p></div></div>
 <label>首页大图直链</label><input id="announcementImageUrl" placeholder="https://..." oninput="pv('announcementImageUrl','announcementPreview')">
 <img id="announcementPreview" class="preview" alt="" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'">
-<label>滚动公告文字</label><input id="announcementText" placeholder="这里填写公告文字">
-</div></div>
+<label>滚动公告文字</label><input id="announcementText" placeholder="这里填写公告文字"></div>
+<div class="save"><button class="btn pri" onclick="saveSite()">保存设置</button></div>
+</section>
 
-<div class="g2">
-<div class="box"><h3>Telegram 客服</h3>
-<div class="tip" style="margin-top:12px">只填 ID 即可，例如 <b>Yukecil1</b>，保存后自动生成官方链接 t.me/Yukecil1。粘贴完整链接也行，会自动识别。</div>
+<section class="panel hidden" data-p="cs">
+<div class="card blk"><div class="st"><div class="ic"><svg><use href="#i-globe"/></svg></div><div><h2>Telegram</h2><p>只填 ID，自动生成官方链接</p></div></div>
+<div class="tip">例如填 <b>Yukecil1</b>，保存后自动变成 t.me/Yukecil1。粘贴完整链接也会自动识别。</div>
 <label>飞机联系方式</label><input id="telegramContact" placeholder="Yukecil1" oninput="tgPrev('telegramContact','lk1')"><div class="link" id="lk1"></div>
 <label>飞机交流群</label><input id="telegramGroup" placeholder="群 ID 或邀请链接" oninput="tgPrev('telegramGroup','lk2')"><div class="link" id="lk2"></div>
 <label>双向机器人</label><input id="telegramBot" placeholder="机器人 ID，如 xxx_bot" oninput="tgPrev('telegramBot','lk3')"><div class="link" id="lk3"></div>
-<label>备用客服链接（可留空）</label><input id="contactUrl" placeholder="https://...">
-</div>
-<div class="box"><h3>邮箱与服务时间</h3>
+<label>备用客服链接（可留空）</label><input id="contactUrl" placeholder="https://..."></div>
+<div class="card blk"><div class="st"><div class="ic"><svg><use href="#i-headset"/></svg></div><div><h2>邮箱与服务时间</h2><p>显示在主页客服页面</p></div></div>
 <label>客服邮箱</label><input id="email" type="email" placeholder="service@example.com">
-<label>服务时间</label><input id="serviceTime" placeholder="每天 10:00 - 22:00">
-<div class="tip">保存后由主页“客服”页面自动读取，不用改 HTML。</div>
-</div></div>
-<div class="save"><button class="btn pri" onclick="saveSite()">保存全部网站设置</button></div>
+<label>服务时间</label><input id="serviceTime" placeholder="每天 10:00 - 22:00"></div>
+<div class="save"><button class="btn pri" onclick="saveSite()">保存设置</button></div>
 </section>
 
-<section class="card panel">
-<div class="sh"><div class="st"><div class="ic"><svg><use href="#i-chart"/></svg></div><div><h2>数据概览</h2><p>站点点击统计</p></div></div></div>
-<div class="stats"><div class="stat"><small>站点数量</small><strong id="statGames">0</strong></div><div class="stat"><small>总点击</small><strong id="statLaunches">0</strong></div><div class="stat"><small>今日点击</small><strong id="statToday">0</strong></div></div>
-</section>
-
-<section class="card panel">
-<div class="sh"><div class="st"><div class="ic"><svg><use href="#i-laptop"/></svg></div><div><h2>站点管理</h2><p>上架 · 图标 · 链接 · 排序</p></div></div><button class="btn pri sm" onclick="addGame()">＋ 添加</button></div>
+<section class="panel hidden" data-p="sites">
+<div class="card blk"><div class="st"><div class="ic"><svg><use href="#i-laptop"/></svg></div><div style="flex:1"><h2>站点管理</h2><p>点击卡片展开编辑</p></div><button class="btn pri sm" onclick="addGame()">＋ 添加</button></div></div>
 <div id="games"></div>
+</section>
+
+<section class="panel hidden" data-p="stats">
+<div class="card blk"><div class="st"><div class="ic"><svg><use href="#i-chart"/></svg></div><div><h2>数据概览</h2><p>站点点击统计</p></div></div>
+<div class="stats"><div class="stat"><small>站点数量</small><strong id="statGames">0</strong></div><div class="stat"><small>总点击</small><strong id="statLaunches">0</strong></div><div class="stat"><small>今日点击</small><strong id="statToday">0</strong></div></div></div>
 </section>
 </div></div>
 <div class="toast" id="toast"></div>
@@ -181,18 +203,22 @@ function renderStats(){const g=data.games||[];
  $('statLaunches').textContent=g.reduce((n,x)=>n+Number(x.total_launches||0),0);
  $('statToday').textContent=g.reduce((n,x)=>n+Number(x.today_launches||0),0)}
 function giInner(g){return g.icon_url?'<img src="'+esc(g.icon_url)+'" alt="" onerror="this.remove()">':'<svg><use href="#i-'+(ICONS[g.category]||'globe')+'"/></svg>'}
-function renderGames(){const box=$('games'),games=data.games||[];
- if(!games.length){box.innerHTML='<div class="empty">暂无站点，点击右上角“＋ 添加”开始。</div>';return}
+function renderGames(){const box=$('games'),games=data.games||[],openIds=[...document.querySelectorAll('.game.open')].map(e=>e.id);
+ if(!games.length){box.innerHTML='<div class="card blk empty">暂无站点，点击上方“＋ 添加”开始。</div>';return}
  box.innerHTML=games.map(g=>{const on=Number(g.enabled)===1,cats=CATS.includes(g.category)?CATS:[...CATS,g.category].filter(Boolean);
- return `<div class="game"><div class="gh"><div class="gi" id="gi${g.id}">${giInner(g)}</div><input id="n${g.id}" value="${esc(g.name)}" placeholder="站点名称"></div>
- <div class="gg"><div class="wide"><label>简介</label><input id="d${g.id}" value="${esc(g.description)}" placeholder="一句话简介"></div>
- <div class="wide"><label>图标直链（留空使用默认图标）</label><input id="i${g.id}" value="${esc(g.icon_url)}" placeholder="https://..." oninput="updateIcon(${g.id})"></div>
- <div class="wide"><label>跳转链接</label><input id="u${g.id}" value="${esc(g.game_url)}" placeholder="https://..."></div>
+ return `<div class="card game ${openIds.includes('g'+g.id)?'open':''}" id="g${g.id}"><button class="gtop" onclick="tog(${g.id})"><div class="gi" id="gi${g.id}">${giInner(g)}</div><div class="gm"><b>${esc(g.name)||'未命名'}</b><small>${esc(g.category||'全部')} · 总点击 ${Number(g.total_launches||0)}</small></div><span class="sdot ${on?'ok':''}"></span><span class="chev">›</span></button>
+ <div class="gbody"><div class="gg"><div><label>站点名称</label><input id="n${g.id}" value="${esc(g.name)}" placeholder="站点名称"></div>
+ <div><label>简介</label><input id="d${g.id}" value="${esc(g.description)}" placeholder="一句话简介"></div>
+ <div><label>图标直链（留空使用默认图标）</label><input id="i${g.id}" value="${esc(g.icon_url)}" placeholder="https://..." oninput="updateIcon(${g.id})"></div>
+ <div><label>跳转链接</label><input id="u${g.id}" value="${esc(g.game_url)}" placeholder="https://..."></div>
  <div><label>分类</label><select id="c${g.id}">${cats.map(c=>`<option value="${esc(c)}" ${g.category===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
  <div><label>排序（越小越靠前）</label><input id="s${g.id}" type="number" value="${Number(g.sort_order||0)}"></div></div>
- <div class="row"><label class="sw"><input id="e${g.id}" type="checkbox" ${on?'checked':''} onchange="$('t${g.id}').textContent=this.checked?'已上架':'已下架'"><i></i><span id="t${g.id}">${on?'已上架':'已下架'}</span></label>
- <div class="chips"><span class="chip">总点击 ${Number(g.total_launches||0)}</span><span class="chip">今日 ${Number(g.today_launches||0)}</span></div></div>
- <div class="acts"><button class="btn pri" onclick="editGame(${g.id})">保存</button><a class="btn gold" href="${esc(g.game_url||'#')}" target="_blank" rel="noopener">测试</a><button class="btn bad" onclick="delGame(${g.id})">删除</button></div></div>`}).join('')}
+ <div class="row"><label class="sw" style="margin:0"><input id="e${g.id}" type="checkbox" ${on?'checked':''} onchange="$('t${g.id}').textContent=this.checked?'已上架':'已下架'"><i></i><span id="t${g.id}">${on?'已上架':'已下架'}</span></label><div class="chips"><span class="chip">今日 ${Number(g.today_launches||0)}</span></div></div>
+ <div class="acts"><button class="btn pri" onclick="editGame(${g.id})">保存</button><a class="btn gold" href="${esc(g.game_url||'#')}" target="_blank" rel="noopener">测试</a><button class="btn bad" onclick="delGame(${g.id})">删除</button></div></div></div>`}).join('')}
+function tog(id){$('g'+id).classList.toggle('open')}
+function show(t){document.querySelectorAll('[data-p]').forEach(p=>p.classList.toggle('hidden',p.dataset.p!==t));document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));sessionStorage.setItem('adminTab',t);scrollTo(0,0)}
+document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>show(b.dataset.t));
+show(sessionStorage.getItem('adminTab')||'look');
 function updateIcon(id){const g={icon_url:$('i'+id).value.trim(),category:$('c'+id).value};$('gi'+id).innerHTML=giInner(g)}
 async function editGame(id){const en=$('e'+id).checked;
  const body={name:$('n'+id).value.trim(),description:$('d'+id).value.trim(),icon_url:$('i'+id).value.trim(),game_url:$('u'+id).value.trim(),category:$('c'+id).value,sort_order:Number($('s'+id).value||0),enabled:en};
