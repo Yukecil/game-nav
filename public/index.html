@@ -406,38 +406,46 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
   }
   let loopTimer=null;
   let loopBusy=false;
-  let loopSpeed=90;
+  const loopSpeed=55;
+  let loopOffset=0;
+
   function stopGameLoop(){
     if(loopTimer){cancelAnimationFrame(loopTimer);loopTimer=null;}
   }
+
   function startGameLoop(){
     stopGameLoop();
-    if(!track.children.length || track.children[0].children.length<2) return;
+    const items=[...track.querySelectorAll('.game-loop-item')];
+    if(items.length<2) return;
+
     let last=performance.now();
-    let offset=0;
     const tick=(now)=>{
       const dt=Math.min(40,now-last);
       last=now;
       if(!loopBusy){
-        offset-=loopSpeed*dt/1000;
+        loopOffset-=loopSpeed*dt/1000;
         const first=track.querySelector('.game-loop-item');
-        const gap=10;
         if(first){
+          const gap=10;
           const step=first.getBoundingClientRect().width+gap;
-          if(-offset>=step){
+          if(-loopOffset>=step){
+            loopOffset+=step;
             track.appendChild(first);
-            offset+=step;
           }
         }
-        track.style.transform=`translate3d(${offset}px,0,0)`;
+        track.style.transform=`translate3d(${loopOffset}px,0,0)`;
       }
       loopTimer=requestAnimationFrame(tick);
     };
     loopTimer=requestAnimationFrame(tick);
   }
+
   function renderGameLoop(){
     stopGameLoop();
-    if(!games.length){track.innerHTML='';return;}
+    loopOffset=0;
+    track.innerHTML='';
+    if(!games.length) return;
+
     const set=document.createElement('div');
     set.className='cat-set';
     games.forEach(g=>{
@@ -446,6 +454,7 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
       btn.type='button';
       btn.dataset.gameId=g.id;
       btn.title=g.name||'';
+
       const iconWrap=document.createElement('div');
       iconWrap.className='game-loop-icon';
       if(g.icon_url){
@@ -457,22 +466,29 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
       }else{
         iconWrap.innerHTML=`<svg><use href="#${iconFor(g.category)}"></use></svg>`;
       }
+
       const label=document.createElement('span');
       label.textContent=g.name||'';
       btn.append(iconWrap,label);
+
       btn.addEventListener('click',()=>{
         const card=document.getElementById('game-'+btn.dataset.gameId);
         if(card){
           card.scrollIntoView({behavior:'smooth',block:'center'});
-          card.animate([{transform:'scale(1)'},{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:450});
+          card.animate(
+            [{transform:'scale(1)'},{transform:'scale(1.035)'},{transform:'scale(1)'}],
+            {duration:450}
+          );
         }
       });
       set.appendChild(btn);
     });
+
     track.appendChild(set);
     track.style.transform='translate3d(0,0,0)';
     startGameLoop();
   }
+
   function renderNotice(){
     const text=settings.announcement_text || 'Yukecil导航 · 精选设计、开发、AI、素材、学习与效率工具';
     noticeContent.innerHTML='<span>'+esc(text)+'</span>';
