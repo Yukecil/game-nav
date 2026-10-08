@@ -360,17 +360,19 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
 <div class="strip game-loop" id="gameLoopStrip">
   <div class="cat-track" id="catTrack"></div>
 </div>
-<div class="sec"><b>精选平台</b><i></i><span id="n">25 个</span></div>
+<div class="sec"><b>推荐站点</b><i></i><span id="n">25 个</span></div>
 <div class="grid" id="g"></div>
-<p class="foot">YUKECIL · 安全有保障</p>
+<p class="foot">YUKECIL · 每周精选更新</p>
 </div>
 <div id="contact">
-<div class="top"><div class="logo"><span class="shine">联系客服</span><small>有问题随时找我们</small></div></div>
+<div class="top"><div class="logo"><span class="shine">联系客服</span><small>有问题随时联系我们</small></div></div>
 <div class="cs">
-<div class="row"><div class="ic sm"><svg><use href="#i-globe"/></svg></div><div class="info"><b>Telegram</b><span id="tg">@your_telegram</span></div><a class="go sm" id="contactLink" href="https://t.me/your_telegram" target="_blank" rel="noopener">聊天</a></div>
-<div class="row"><div class="ic sm"><svg><use href="#i-note"/></svg></div><div class="info"><b>邮箱</b><span id="em">your@email.com</span></div><a class="go sm" href="mailto:your@email.com">发邮件</a></div>
+<div class="row"><div class="ic sm"><svg><use href="#i-globe"/></svg></div><div class="info"><b>飞机联系方式</b><span id="tg">@Yukecil1</span></div><a class="go sm" id="contactLink" href="#" target="_blank" rel="noopener">联系</a></div>
+<div class="row"><div class="ic sm"><svg><use href="#i-phones"/></svg></div><div class="info"><b>飞机交流群</b><span id="tgGroup">@yuk88888</span></div><a class="go sm" id="groupLink" href="#" target="_blank" rel="noopener">加入</a></div>
+<div class="row"><div class="ic sm"><svg><use href="#i-tools"/></svg></div><div class="info"><b>双向机器人</b><span id="tgBot">@Sx1108_bot</span></div><a class="go sm" id="botLink" href="#" target="_blank" rel="noopener">打开</a></div>
+<div class="row"><div class="ic sm"><svg><use href="#i-note"/></svg></div><div class="info"><b>邮箱</b><span id="em">your@email.com</span></div><a class="go sm" id="emailLink" href="#">发邮件</a></div>
 <div class="row"><div class="ic sm"><svg><use href="#i-chart"/></svg></div><div class="info"><b>服务时间</b><span id="serviceTime">每天 10:00 - 22:00</span></div></div>
-<p class="tip">有问题请联系上方飞机或者发邮箱</p>
+<p class="tip">点击按钮即可打开对应联系方式。</p>
 </div></div>
 <nav class="tabs">
 <a href="#home" id="t-home" class="on"><span><svg class="ti"><use href="#i-home"/></svg></span>主页</a>
@@ -391,6 +393,13 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
   const serviceTime=document.getElementById('serviceTime');
   const siteName=document.getElementById('siteName');
   const contactLink=document.getElementById('contactLink');
+  const groupLink=document.getElementById('groupLink');
+  const botLink=document.getElementById('botLink');
+  const emailLink=document.getElementById('emailLink');
+  const tg=document.getElementById('tg');
+  const tgGroup=document.getElementById('tgGroup');
+  const tgBot=document.getElementById('tgBot');
+  const em=document.getElementById('em');
 
   function esc(v=''){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
   function iconFor(cat){return ({AI:'i-globe',设计:'i-palette',开发:'i-laptop',素材:'i-camera',学习:'i-book',效率:'i-note',数据:'i-chart',娱乐:'i-phones',工具:'i-tools'})[cat]||'i-globe'}
@@ -498,10 +507,27 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
   function renderServiceTime(){
     if(serviceTime) serviceTime.textContent=settings.service_time || '每天 10:00 - 22:00';
   }
+  function tgUrl(v){
+    const x=String(v||'').trim();
+    if(!x)return '#';
+    if(/^https?:\/\//i.test(x))return x;
+    return 'https://t.me/'+x.replace(/^@/,'');
+  }
   function renderSiteSettings(){
     if(siteName && settings.site_name) siteName.textContent=settings.site_name;
-    if(settings.background_url) document.body.style.backgroundImage=`url("${String(settings.background_url).replace(/"/g,'\\"')}")`;
-    if(contactLink && settings.contact_url) contactLink.href=settings.contact_url;
+    if(settings.background_url) document.body.style.backgroundImage=`url("${String(settings.background_url).replace(/"/g,'\"')}")`;
+    const personal=settings.telegram_contact || '';
+    const group=settings.telegram_group || '';
+    const bot=settings.telegram_bot || '';
+    const mail=settings.email || '';
+    if(tg) tg.textContent=personal || '未设置';
+    if(tgGroup) tgGroup.textContent=group || '未设置';
+    if(tgBot) tgBot.textContent=bot || '未设置';
+    if(em) em.textContent=mail || '未设置';
+    if(contactLink){contactLink.href=tgUrl(personal || settings.contact_url); contactLink.style.display=(personal || settings.contact_url)?'inline-flex':'none';}
+    if(groupLink){groupLink.href=tgUrl(group); groupLink.style.display=group?'inline-flex':'none';}
+    if(botLink){botLink.href=tgUrl(bot); botLink.style.display=bot?'inline-flex':'none';}
+    if(emailLink){emailLink.href=mail?'mailto:'+mail:'#'; emailLink.style.display=mail?'inline-flex':'none';}
   }
   function renderHero(){
     if(settings.announcement_image_url){
