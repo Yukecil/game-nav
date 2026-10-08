@@ -298,23 +298,59 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
   .strip .cat{flex-basis:64px;width:64px}
   .cat-set{gap:6px}
 }
-@media(prefers-reduced-motion:reduce){
-  .cat-track{animation:none}
-}
-
 .dynamic-game .tile img{width:100%;height:100%;object-fit:cover;border-radius:inherit;position:relative;z-index:2}.dynamic-game .tile.has-img{background:#20134f}.dynamic-game .tile.has-img::after{display:none}
 
-/* ===== 后台上架游戏同步到顶部无限循环 ===== */
-.game-loop .cat-track{display:flex;width:max-content;animation:catLoop 22s linear infinite;will-change:transform}
-.game-loop .cat-set{display:flex;gap:10px;padding:0 5px;flex-shrink:0}
-.game-loop .game-loop-item{flex:0 0 68px;width:68px;border:0;outline:0;background:transparent;color:var(--sub);text-align:center;font:600 11px inherit;font-family:inherit;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.game-loop .game-loop-icon{width:56px;height:56px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;overflow:hidden;color:var(--gold);background:radial-gradient(circle at 30% 25%,#8b6bff,#3a2796 70%) padding-box,conic-gradient(from 200deg,#f6e3a8,#9a7a2e,#f6e3a8,#b8913d,#f6e3a8) border-box;border:2.5px solid transparent;box-shadow:0 8px 20px -6px rgba(122,92,255,.8),inset 0 2px 6px rgba(255,255,255,.35);transition:transform .18s ease}
+/* ===== 后台上架游戏同步到顶部循环（不复制游戏数据） ===== */
+.game-loop .cat-track{
+  display:flex;
+  width:max-content;
+  gap:10px;
+  transform:translate3d(0,0,0);
+  will-change:transform;
+}
+.game-loop .cat-set{
+  display:flex;
+  gap:10px;
+  padding:0 5px;
+  flex-shrink:0;
+}
+.game-loop .game-loop-item{
+  flex:0 0 68px;
+  width:68px;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--sub);
+  text-align:center;
+  font:600 11px inherit;
+  font-family:inherit;
+  padding:0;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.game-loop .game-loop-icon{
+  width:56px;
+  height:56px;
+  margin:0 auto 6px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  color:var(--gold);
+  background:radial-gradient(circle at 30% 25%,#8b6bff,#3a2796 70%) padding-box,conic-gradient(from 200deg,#f6e3a8,#9a7a2e,#f6e3a8,#b8913d,#f6e3a8) border-box;
+  border:2.5px solid transparent;
+  box-shadow:0 8px 20px -6px rgba(122,92,255,.8),inset 0 2px 6px rgba(255,255,255,.35);
+  transition:transform .18s ease;
+}
 .game-loop .game-loop-icon img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
 .game-loop .game-loop-icon svg{width:52%;height:52%}
 .game-loop .game-loop-item:active .game-loop-icon{transform:scale(.92)}
 .game-loop .game-loop-item span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@keyframes catLoop{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 5px))}}
-@media(max-width:390px){.game-loop .game-loop-item{flex-basis:62px;width:62px}.game-loop .cat-set{gap:7px}.game-loop .game-loop-icon{width:52px;height:52px}}
+@media(max-width:390px){
+  .game-loop .game-loop-item{flex-basis:62px;width:62px}
+  .game-loop .cat-set{gap:7px}
+  .game-loop .game-loop-icon{width:52px;height:52px}
+}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-palette" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M24 6C13 6 6 14 6 24s8 18 17 18c3 0 4-2 3-4-1-3 1-5 4-5h6c4 0 6-3 6-7C42 14 34 6 24 6z"/><circle cx="15" cy="22" r="2.4" fill="currentColor"/><circle cx="21" cy="14" r="2.4" fill="currentColor"/><circle cx="31" cy="15" r="2.4" fill="currentColor"/></symbol><symbol id="i-laptop" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="9" y="10" width="30" height="21" rx="3"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M4 38h40l-3-7H7z"/></symbol><symbol id="i-book" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 8h26a4 4 0 0 1 4 4v28H12a4 4 0 0 1-4-4z"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 36a4 4 0 0 1 4-4h26"/><path d="M16 15h14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol><symbol id="i-phones" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 30V24a16 16 0 0 1 32 0v6"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="28" width="9" height="13" rx="3"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="33" y="28" width="9" height="13" rx="3"/></symbol><symbol id="i-chart" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M7 7v34h34"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M13 32l9-10 7 6 11-14"/></symbol><symbol id="i-tools" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="16" width="36" height="24" rx="4"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M17 16v-4a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4M6 27h36"/></symbol><symbol id="i-globe" viewBox="0 0 48 48"><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="24" cy="24" r="17"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M7 24h34M24 7c-8 9-8 25 0 34M24 7c8 9 8 25 0 34"/></symbol><symbol id="i-pen" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 40l2-9L32 9l7 7-22 22z"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M28 13l7 7"/></symbol><symbol id="i-note" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="9" y="6" width="26" height="36" rx="4"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M16 16h12M16 23h12M16 30h6"/></symbol><symbol id="i-camera" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M6 15h8l3-5h14l3 5h8v24H6z"/><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="24" cy="26" r="7"/></symbol><symbol id="i-home" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M6 22L24 7l18 15"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M11 19v21h26V19"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M20 40V28h8v12"/></symbol><symbol id="i-headset" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 28v-4a16 16 0 0 1 32 0v4"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="26" width="9" height="13" rx="3"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="33" y="26" width="9" height="13" rx="3"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M37 39c0 4-5 5-10 5"/></symbol><symbol id="i-search" viewBox="0 0 48 48"><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="21" cy="21" r="13"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M31 31l11 11"/></symbol></svg>
 <div id="home">
@@ -368,17 +404,74 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
       fetch(`/api/games/${a.dataset.launch}/launch`,{method:'POST',keepalive:true}).catch(()=>{});
     }));
   }
+  let loopTimer=null;
+  let loopBusy=false;
+  let loopSpeed=90;
+  function stopGameLoop(){
+    if(loopTimer){cancelAnimationFrame(loopTimer);loopTimer=null;}
+  }
+  function startGameLoop(){
+    stopGameLoop();
+    if(!track.children.length || track.children[0].children.length<2) return;
+    let last=performance.now();
+    let offset=0;
+    const tick=(now)=>{
+      const dt=Math.min(40,now-last);
+      last=now;
+      if(!loopBusy){
+        offset-=loopSpeed*dt/1000;
+        const first=track.querySelector('.game-loop-item');
+        const gap=10;
+        if(first){
+          const step=first.getBoundingClientRect().width+gap;
+          if(-offset>=step){
+            track.appendChild(first);
+            offset+=step;
+          }
+        }
+        track.style.transform=`translate3d(${offset}px,0,0)`;
+      }
+      loopTimer=requestAnimationFrame(tick);
+    };
+    loopTimer=requestAnimationFrame(tick);
+  }
   function renderGameLoop(){
+    stopGameLoop();
     if(!games.length){track.innerHTML='';return;}
-    const make=()=>`<div class="cat-set">${games.map(g=>{
-      const icon=g.icon_url?`<img src="${esc(g.icon_url)}" alt="${esc(g.name)}">`:`<svg><use href="#${iconFor(g.category)}"></use></svg>`;
-      return `<button class="game-loop-item" type="button" data-game-id="${g.id}" title="${esc(g.name)}"><div class="game-loop-icon">${icon}</div><span>${esc(g.name)}</span></button>`;
-    }).join('')}</div>`;
-    track.innerHTML=make()+make();
-    track.querySelectorAll('.game-loop-item').forEach(btn=>btn.addEventListener('click',()=>{
-      const card=document.getElementById('game-'+btn.dataset.gameId);
-      if(card){card.scrollIntoView({behavior:'smooth',block:'center'});card.animate([{transform:'scale(1)'},{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:450});}
-    }));
+    const set=document.createElement('div');
+    set.className='cat-set';
+    games.forEach(g=>{
+      const btn=document.createElement('button');
+      btn.className='game-loop-item';
+      btn.type='button';
+      btn.dataset.gameId=g.id;
+      btn.title=g.name||'';
+      const iconWrap=document.createElement('div');
+      iconWrap.className='game-loop-icon';
+      if(g.icon_url){
+        const img=document.createElement('img');
+        img.src=g.icon_url;
+        img.alt=g.name||'';
+        img.loading='lazy';
+        iconWrap.appendChild(img);
+      }else{
+        iconWrap.innerHTML=`<svg><use href="#${iconFor(g.category)}"></use></svg>`;
+      }
+      const label=document.createElement('span');
+      label.textContent=g.name||'';
+      btn.append(iconWrap,label);
+      btn.addEventListener('click',()=>{
+        const card=document.getElementById('game-'+btn.dataset.gameId);
+        if(card){
+          card.scrollIntoView({behavior:'smooth',block:'center'});
+          card.animate([{transform:'scale(1)'},{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:450});
+        }
+      });
+      set.appendChild(btn);
+    });
+    track.appendChild(set);
+    track.style.transform='translate3d(0,0,0)';
+    startGameLoop();
   }
   function renderNotice(){
     const text=settings.announcement_text || 'Yukecil导航 · 精选设计、开发、AI、素材、学习与效率工具';
@@ -418,10 +511,12 @@ body:not(:has(#contact:target)) #t-home{color:#fff;background:rgba(255,255,255,.
       renderGames();
     }
   }
-  const pause=()=>track.style.animationPlayState='paused';
-  const resume=()=>track.style.animationPlayState='';
+  const pause=()=>{loopBusy=true};
+  const resume=()=>{loopBusy=false};
   ['touchstart','pointerdown'].forEach(ev=>loopStrip.addEventListener(ev,pause,{passive:true}));
-  ['touchend','pointerup','pointercancel'].forEach(ev=>loopStrip.addEventListener(ev,resume,{passive:true}));
+  ['touchend','pointerup','pointercancel','touchcancel'].forEach(ev=>loopStrip.addEventListener(ev,resume,{passive:true}));
+  loopStrip.addEventListener('mouseenter',pause);
+  loopStrip.addEventListener('mouseleave',resume);
   load();
 })();
 </script>
