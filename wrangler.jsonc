@@ -1,17 +1,19 @@
+
 {
   "$schema": "https://developers.cloudflare.com/workers/wrangler/config-schema.json",
   "name": "game-nav",
   "main": "src/worker.js",
   "compatibility_date": "2026-10-02",
-
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
     "run_worker_first": [
-      "/api/*"
+      "/api/*",
+      "/admin",
+      "/admin/",
+      "/media/*"
     ]
   },
-
   "d1_databases": [
     {
       "binding": "DB",
