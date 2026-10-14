@@ -71,6 +71,32 @@ input[type=color]{padding:4px}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;padding:12px 20px;border-radius:99px;font-size:14px;font-weight:600;background:rgba(22,16,58,.95);border:1px solid var(--gold);box-shadow:0 14px 34px -8px #000;transition:.25s;z-index:50;pointer-events:none;max-width:90vw}
 .toast.on{opacity:1;transform:translate(-50%,0)}.toast.err{border-color:var(--bad);color:var(--bad)}
 @media(max-width:640px){.g2{grid-template-columns:1fr}.gg{grid-template-columns:1fr}.ta .btn.v{display:none}.stats{gap:8px}.stat strong{font-size:20px}}
+
+/* ===== 清爽版后台：分组折叠、留白更充足 ===== */
+body{padding-left:12px;padding-right:12px}
+.wrap{max-width:760px}
+.panel{padding:14px;margin-bottom:12px}
+.topbar{padding:10px 12px;border-radius:16px}
+.g2{grid-template-columns:1fr;gap:10px;margin-top:10px}
+.box{padding:0 13px 13px;border-radius:15px;background:rgba(255,255,255,.035)}
+.box h3{margin:0;padding:15px 0;font-size:15px;letter-spacing:.2px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.box h3::after{content:'＋';font-size:18px;color:var(--p2);font-weight:400}
+.box.is-open h3::after{content:'－'}
+.box-content{padding-bottom:3px}
+.box:not(.is-open) .box-content{display:none}
+label{font-size:13px;margin:12px 0 6px}
+input,select{height:44px;border-radius:12px}
+.upload-row{grid-template-columns:minmax(0,1fr);}
+.upload-row .btn{width:100%}
+.preview{max-height:220px;aspect-ratio:16/7;object-fit:contain}
+.tip{font-size:13px;line-height:1.7}
+.save{position:sticky;bottom:8px;z-index:10;padding:8px 0;background:linear-gradient(180deg,transparent,rgba(7,5,26,.96) 35%)}
+.save .btn{width:100%;height:46px}
+.game{padding:12px;border-radius:16px}
+.gg{gap:8px}
+@media(min-width:700px){.g2{grid-template-columns:1fr 1fr}.upload-row{grid-template-columns:minmax(0,1fr) auto}.upload-row .btn{width:auto}}
+@media(max-width:420px){.panel{padding:11px}.st h2{font-size:16px}.tl b{font-size:15px}.ta{gap:5px}.btn.sm{padding:0 11px}}
+
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-palette" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M24 6C13 6 6 14 6 24s8 18 17 18c3 0 4-2 3-4-1-3 1-5 4-5h6c4 0 6-3 6-7C42 14 34 6 24 6z"/><circle cx="15" cy="22" r="2.4" fill="currentColor"/><circle cx="21" cy="14" r="2.4" fill="currentColor"/><circle cx="31" cy="15" r="2.4" fill="currentColor"/></symbol><symbol id="i-laptop" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="9" y="10" width="30" height="21" rx="3"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M4 38h40l-3-7H7z"/></symbol><symbol id="i-book" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 8h26a4 4 0 0 1 4 4v28H12a4 4 0 0 1-4-4z"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 36a4 4 0 0 1 4-4h26"/><path d="M16 15h14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol><symbol id="i-phones" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 30V24a16 16 0 0 1 32 0v6"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="28" width="9" height="13" rx="3"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="33" y="28" width="9" height="13" rx="3"/></symbol><symbol id="i-chart" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M7 7v34h34"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M13 32l9-10 7 6 11-14"/></symbol><symbol id="i-tools" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="16" width="36" height="24" rx="4"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M17 16v-4a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4M6 27h36"/></symbol><symbol id="i-globe" viewBox="0 0 48 48"><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="24" cy="24" r="17"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M7 24h34M24 7c-8 9-8 25 0 34M24 7c8 9 8 25 0 34"/></symbol><symbol id="i-pen" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 40l2-9L32 9l7 7-22 22z"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M28 13l7 7"/></symbol><symbol id="i-note" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="9" y="6" width="26" height="36" rx="4"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M16 16h12M16 23h12M16 30h6"/></symbol><symbol id="i-camera" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M6 15h8l3-5h14l3 5h8v24H6z"/><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="24" cy="26" r="7"/></symbol><symbol id="i-home" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M6 22L24 7l18 15"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M11 19v21h26V19"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M20 40V28h8v12"/></symbol><symbol id="i-headset" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 28v-4a16 16 0 0 1 32 0v4"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="26" width="9" height="13" rx="3"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="33" y="26" width="9" height="13" rx="3"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M37 39c0 4-5 5-10 5"/></symbol><symbol id="i-search" viewBox="0 0 48 48"><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="21" cy="21" r="13"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M31 31l11 11"/></symbol></svg>
 <div class="wrap">
@@ -150,12 +176,33 @@ function tgLink(v){const n=tgNorm(v);if(!n)return'';return n.startsWith('@')?'ht
 function tgPrev(inp,box){const l=tgLink($(inp).value);
  $(box).innerHTML=l?'官方链接：<a href="'+esc(l)+'" target="_blank" rel="noopener">'+esc(l)+'</a>':''}
 
+
+// 把网站设置分组变成可折叠卡片，减少手机上一次显示太多内容
+function setupSettingAccordions(){
+ document.querySelectorAll('#admin .g2 .box').forEach((box,index)=>{
+   if(box.dataset.accordionReady) return;
+   const heading=box.querySelector('h3');
+   if(!heading) return;
+   const content=document.createElement('div');
+   content.className='box-content';
+   while(heading.nextSibling) content.appendChild(heading.nextSibling);
+   box.appendChild(content);
+   box.dataset.accordionReady='1';
+   box.classList.toggle('is-open',index===0);
+   heading.setAttribute('role','button');
+   heading.setAttribute('tabindex','0');
+   const toggle=()=>box.classList.toggle('is-open');
+   heading.addEventListener('click',toggle);
+   heading.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
+ });
+}
+
 async function login(){const p=$('pw').value.trim();if(!p){toast('请输入密码',1);return}
  try{const r=await api('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password:p})});
  if(!r.ok){toast('密码错误',1);return}token=p;sessionStorage.setItem('gameNavToken',token);await load()}catch(e){toast('登录失败，请检查网络',1)}}
 function logout(){sessionStorage.removeItem('gameNavToken');token='';location.reload()}
 async function load(){try{const r=await api('/api/site',{headers:headers()});if(!r.ok)throw 0;data=await r.json();
- $('loginPanel').classList.add('hidden');$('admin').classList.remove('hidden');fill();renderGames();renderStats()}
+ $('loginPanel').classList.add('hidden');$('admin').classList.remove('hidden');fill();renderGames();renderStats();setupSettingAccordions()}
  catch(e){sessionStorage.removeItem('gameNavToken');token='';$('loginPanel').classList.remove('hidden');$('admin').classList.add('hidden')}}
 function pv(i,p){$(p).src=$(i).value.trim()}
 function fill(){const s=data.settings||{};
