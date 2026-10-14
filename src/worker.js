@@ -1,4 +1,3 @@
-
 const json = (data, status = 200, extraHeaders = {}) =>
   new Response(JSON.stringify(data), {
     status,
@@ -15,29 +14,34 @@ function auth(req, env) {
     req.headers.get('authorization') === `Bearer ${secret}`;
 }
 
+// ==================== 网站数据 ====================
+
 async function getSite(env, isAdmin = false) {
   const settings = await env.DB
-    .prepare('SELECT * FROM settings WHERE id=1')
+    .prepare('SELECT * FROM settings WHERE id = 1')
     .first();
 
   const sql = isAdmin
     ? `SELECT g.*,
          COALESCE((
-           SELECT COUNT(*) FROM game_launches l
-           WHERE l.game_id=g.id
-         ),0) AS total_launches,
+           SELECT COUNT(*)
+           FROM game_launches l
+           WHERE l.game_id = g.id
+         ), 0) AS total_launches,
          COALESCE((
-           SELECT COUNT(*) FROM game_launches l
-           WHERE l.game_id=g.id
-             AND date(l.created_at,'localtime')=date('now','localtime')
-         ),0) AS today_launches
+           SELECT COUNT(*)
+           FROM game_launches l
+           WHERE l.game_id = g.id
+             AND date(l.created_at, 'localtime') =
+                 date('now', 'localtime')
+         ), 0) AS today_launches
        FROM games g
-       ORDER BY g.sort_order,g.id`
-    : `SELECT id,name,description,icon_url,game_url,category,
-              sort_order,enabled
+       ORDER BY g.sort_order, g.id`
+    : `SELECT id, name, description, icon_url, game_url,
+              category, sort_order, enabled
        FROM games
-       WHERE enabled=1
-       ORDER BY sort_order,id`;
+       WHERE enabled = 1
+       ORDER BY sort_order, id`;
 
   const { results } = await env.DB.prepare(sql).all();
 
@@ -104,6 +108,74 @@ function sniffImage(bytes) {
   }
 
   return '';
+}
+
+// ==================== 图片数据转换 ====================
+
+function normalizeImageData(data) {
+  if (data == null) {
+    return null;
+  }
+
+  // ArrayBuffer
+  if (data instanceof ArrayBuffer) {
+    return new Uint8Array(data);
+  }
+
+  // Uint8Array、DataView 等类型化数组
+  if (ArrayBuffer.isView(data)) {
+    return new Uint8Array(
+      data.buffer,
+      data.byteOffset,
+      data.byteLength
+    );
+  }
+
+  // 普通数字数组
+  if (Array.isArray(data)) {
+    if (!data.every(
+      value =>
+        Number.isInteger(value) &&
+        value >= 0 &&
+        value <= 255
+    )) {
+      return null;
+    }
+
+    return Uint8Array.from(data);
+  }
+
+  // Buffer JSON 格式：{ type: "Buffer", data: [...] }
+  if (typeof data === 'object') {
+    if (Array.isArray(data.data)) {
+      return normalizeImageData(data.data);
+    }
+
+    // 数字索引对象：{ "0": 137, "1": 80, ... }
+    const keys = Object.keys(data);
+
+    if (
+      keys.length > 0 &&
+      keys.every(key => /^\d+$/.test(key))
+    ) {
+      keys.sort((a, b) => Number(a) - Number(b));
+
+      const values = keys.map(key => data[key]);
+
+      if (!values.every(
+        value =>
+          Number.isInteger(value) &&
+          value >= 0 &&
+          value <= 255
+      )) {
+        return null;
+      }
+
+      return Uint8Array.from(values);
+    }
+  }
+
+  return null;
 }
 
 // ==================== 上传图片 ====================
@@ -195,8 +267,7 @@ async function uploadImage(req, env) {
   });
 }
 
-// ==================== 读取图片：修复重点 ====================
-
+// ==================== 读取图片 ====================
 
 async function serveImage(id, env, method = 'GET') {
   let row;
@@ -206,7 +277,9 @@ async function serveImage(id, env, method = 'GET') {
       `SELECT mime_type, data, size_bytes
        FROM uploads
        WHERE id = ?`
-    ).bind(id).first();
+    )
+      .bind(id)
+      .first();
   } catch (e) {
     return new Response(
       '读取图片失败：' + (e?.message || '数据库错误'),
@@ -230,74 +303,30 @@ async function serveImage(id, env, method = 'GET') {
     });
   }
 
-  const data = row.data;
-  let bytes = null;
+  const bytes = normalizeImageData(row.data);
 
-  // 情况一：标准 ArrayBuffer
-  if (data instanceof ArrayBuffer) {
-    bytes = new Uint8Array(data);
-  }
-
-  // 情况二：Uint8Array 等类型化数组
-  else if (ArrayBuffer.isView(data)) {
-    bytes = new Uint8Array(
-      data.buffer,
-      data.byteOffset,
-      data.byteLength
-    );
-  }
-
-  // 情况三：普通数字数组
-  else if (Array.isArray(data)) {
-    bytes = Uint8Array.from(data);
-  }
-
-  // 情况四：对象形式的 Buffer 或数字索引对象
-  else if (typeof data === 'object') {
-    if (Array.isArray(data.data)) {
-      // 例如 { type: "Buffer", data: [137, 80, ...] }
-      bytes = Uint8Array.from(data.data);
-    } else {
-      const keys = Object.keys(data);
-
-      // 例如 { "0": 137, "1": 80, "2": 78, ... }
-      if (
-        keys.length > 0 &&
-        keys.every(key => /^\d+$/.test(key))
-      ) {
-        keys.sort((a, b) => Number(a) - Number(b));
-        bytes = Uint8Array.from(
-          keys.map(key => Number(data[key]))
-        );
-      }
-    }
-  }
-
-  // 无法识别时返回具体结构，方便继续排查
   if (!bytes || bytes.byteLength === 0) {
-    let details = '';
+    let details;
 
     try {
       details = JSON.stringify({
-        type: typeof data,
-        constructor: data?.constructor?.name || '',
-        keys: Object.keys(data).slice(0, 20),
-        size: row.size_bytes
+        dataType: typeof row.data,
+        constructor: row.data?.constructor?.name || '',
+        keys: Object.keys(row.data || {}).slice(0, 20),
+        expectedSize: row.size_bytes,
+        actualSize: row.data?.byteLength ?? null
       });
     } catch {
-      details = '无法读取数据结构';
+      details = '无法读取图片数据结构';
     }
 
-    return new Response(
-      '无法识别图片数据：' + details,
-      {
-        status: 500,
-        headers: {
-          'content-type': 'text/plain; charset=utf-8',
-          'cache-control': 'no-store'
-        }
+    return new Response('无法识别图片数据：' + details, {
+      status: 500,
+      headers: {
+        'content-type': 'text/plain; charset=utf-8',
+        'cache-control': 'no-store'
       }
-    );
+    });
   }
 
   const mime = row.mime_type || 'application/octet-stream';
@@ -310,6 +339,23 @@ async function serveImage(id, env, method = 'GET') {
         'cache-control': 'no-store'
       }
     });
+  }
+
+  // 检查数据库记录的大小是否与实际数据一致
+  if (
+    Number(row.size_bytes) > 0 &&
+    Number(row.size_bytes) !== bytes.byteLength
+  ) {
+    return new Response(
+      `图片数据长度不一致：数据库记录 ${row.size_bytes} 字节，实际读取 ${bytes.byteLength} 字节`,
+      {
+        status: 500,
+        headers: {
+          'content-type': 'text/plain; charset=utf-8',
+          'cache-control': 'no-store'
+        }
+      }
+    );
   }
 
   return new Response(
@@ -326,74 +372,6 @@ async function serveImage(id, env, method = 'GET') {
   );
 }
 
-
-  if (!row || row.data == null) {
-    return new Response(
-      '找不到图片记录，ID：' + id,
-      {
-        status: 404,
-        headers: {
-          'content-type': 'text/plain; charset=utf-8',
-          'cache-control': 'no-store'
-        }
-      }
-    );
-  }
-
-  let bytes;
-
-  // D1 返回的 BLOB 可能是 ArrayBuffer 或 TypedArray。
-  if (row.data instanceof ArrayBuffer) {
-    bytes = row.data;
-  } else if (ArrayBuffer.isView(row.data)) {
-    bytes = row.data.buffer.slice(
-      row.data.byteOffset,
-      row.data.byteOffset + row.data.byteLength
-    );
-  } else if (ArrayBuffer.isView(row.data?.buffer)) {
-    // 兼容带有底层 buffer 的视图对象。
-    bytes = row.data.buffer.buffer.slice(
-      row.data.byteOffset || 0,
-      (row.data.byteOffset || 0) +
-        (row.data.byteLength || 0)
-    );
-  } else {
-    return new Response(
-      '图片数据格式异常，类型：' + typeof row.data,
-      {
-        status: 500,
-        headers: {
-          'content-type': 'text/plain; charset=utf-8',
-          'cache-control': 'no-store'
-        }
-      }
-    );
-  }
-
-  const mime = row.mime_type || 'application/octet-stream';
-
-  if (!IMAGE_TYPES.has(mime)) {
-    return new Response('图片 MIME 类型异常：' + mime, {
-      status: 500,
-      headers: {
-        'content-type': 'text/plain; charset=utf-8',
-        'cache-control': 'no-store'
-      }
-    });
-  }
-
-  const headers = {
-    'content-type': mime,
-    'cache-control': 'no-store',
-    'x-content-type-options': 'nosniff'
-  };
-
-  return new Response(method === 'HEAD' ? null : bytes, {
-    status: 200,
-    headers
-  });
-}
-
 // ==================== Worker 主路由 ====================
 
 export default {
@@ -401,7 +379,7 @@ export default {
     const url = new URL(req.url);
 
     try {
-      // 图片地址：/media/32位图片ID
+      // 图片地址：/media/32 位图片 ID
       const mediaMatch = url.pathname.match(
         /^\/media\/([a-f0-9]{32})$/i
       );
@@ -417,7 +395,7 @@ export default {
         );
       }
 
-      // 后台页面
+      // 管理后台页面
       if (
         (url.pathname === '/admin' ||
           url.pathname === '/admin/') &&
@@ -537,7 +515,7 @@ export default {
         return json({ ok: true });
       }
 
-      // 游戏管理与启动统计
+      // 游戏管理及启动统计
       const match = url.pathname.match(
         /^\/api\/games\/(\d+)(?:\/(launch))?$/
       );
