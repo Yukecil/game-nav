@@ -97,6 +97,24 @@ input,select{height:44px;border-radius:12px}
 @media(min-width:700px){.g2{grid-template-columns:1fr 1fr}.upload-row{grid-template-columns:minmax(0,1fr) auto}.upload-row .btn{width:auto}}
 @media(max-width:420px){.panel{padding:11px}.st h2{font-size:16px}.tl b{font-size:15px}.ta{gap:5px}.btn.sm{padding:0 11px}}
 
+
+.game{padding:0;margin-top:10px;border-radius:18px;background:rgba(255,255,255,.035);border:1px solid var(--line);overflow:hidden}
+.game-summary{display:flex;align-items:center;gap:12px;padding:12px;cursor:pointer;list-style:none}
+.game-summary::-webkit-details-marker{display:none}
+.game-summary-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px}
+.game-summary-info strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:15px}
+.game-summary-info span{color:var(--sub);font-size:12px}
+.fold-mark{color:var(--p2);font-size:12px;white-space:nowrap}
+.game[open] .fold-mark{font-size:0}
+.game[open] .fold-mark:after{content:"收起⌃";font-size:12px}
+.game-body{padding:0 14px 14px;border-top:1px solid var(--line)}
+.game-body .gg{padding-top:4px}
+.game-body textarea{width:100%;min-height:76px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(0,0,0,.2);color:var(--ink);font:inherit}
+.icon-edit-row{display:flex;align-items:center;gap:12px}
+.icon-edit-controls{flex:1;min-width:0}
+.icon-edit-controls input[type=file]{display:block;width:100%;margin-top:8px;font-size:12px}
+.game-body .upload-note{font-size:11px;line-height:1.5;color:var(--sub);margin-top:6px}
+@media(max-width:520px){.game-body .gg{grid-template-columns:1fr}.game-body .gg .wide{grid-column:1}.game-summary .gi{width:48px;height:48px;border-radius:14px}.game-body .acts{display:grid;grid-template-columns:1fr 1fr}.game-body .acts .bad{grid-column:1/-1}}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-palette" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M24 6C13 6 6 14 6 24s8 18 17 18c3 0 4-2 3-4-1-3 1-5 4-5h6c4 0 6-3 6-7C42 14 34 6 24 6z"/><circle cx="15" cy="22" r="2.4" fill="currentColor"/><circle cx="21" cy="14" r="2.4" fill="currentColor"/><circle cx="31" cy="15" r="2.4" fill="currentColor"/></symbol><symbol id="i-laptop" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="9" y="10" width="30" height="21" rx="3"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M4 38h40l-3-7H7z"/></symbol><symbol id="i-book" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 8h26a4 4 0 0 1 4 4v28H12a4 4 0 0 1-4-4z"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 36a4 4 0 0 1 4-4h26"/><path d="M16 15h14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol><symbol id="i-phones" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 30V24a16 16 0 0 1 32 0v6"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="28" width="9" height="13" rx="3"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="33" y="28" width="9" height="13" rx="3"/></symbol><symbol id="i-chart" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M7 7v34h34"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M13 32l9-10 7 6 11-14"/></symbol><symbol id="i-tools" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="16" width="36" height="24" rx="4"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M17 16v-4a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4M6 27h36"/></symbol><symbol id="i-globe" viewBox="0 0 48 48"><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="24" cy="24" r="17"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M7 24h34M24 7c-8 9-8 25 0 34M24 7c8 9 8 25 0 34"/></symbol><symbol id="i-pen" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 40l2-9L32 9l7 7-22 22z"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M28 13l7 7"/></symbol><symbol id="i-note" viewBox="0 0 48 48"><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="9" y="6" width="26" height="36" rx="4"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M16 16h12M16 23h12M16 30h6"/></symbol><symbol id="i-camera" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M6 15h8l3-5h14l3 5h8v24H6z"/><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="24" cy="26" r="7"/></symbol><symbol id="i-home" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M6 22L24 7l18 15"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M11 19v21h26V19"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M20 40V28h8v12"/></symbol><symbol id="i-headset" viewBox="0 0 48 48"><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M8 28v-4a16 16 0 0 1 32 0v4"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="6" y="26" width="9" height="13" rx="3"/><rect fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" x="33" y="26" width="9" height="13" rx="3"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M37 39c0 4-5 5-10 5"/></symbol><symbol id="i-search" viewBox="0 0 48 48"><circle fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="21" cy="21" r="13"/><path fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M31 31l11 11"/></symbol></svg>
 <div class="wrap">
@@ -148,7 +166,7 @@ input,select{height:44px;border-radius:12px}
 </section>
 
 <section class="card panel">
-<div class="sh"><div class="st"><div class="ic"><svg><use href="#i-laptop"/></svg></div><div><h2>站点管理</h2><p>上架 · 图标 · 链接 · 排序</p></div></div><button class="btn pri sm" onclick="addGame()">＋ 添加</button></div>
+<div class="sh"><div class="st"><div class="ic"><svg><use href="#i-laptop"/></svg></div><div><h2>站点管理</h2><p>点击游戏卡片展开编辑；选择图标后自动上传保存</p></div></div><button class="btn pri sm" onclick="addGame()">＋ 添加</button></div>
 <div id="games"></div>
 </section>
 </div></div>
@@ -259,21 +277,37 @@ function renderStats(){const g=data.games||[];
  $('statLaunches').textContent=g.reduce((n,x)=>n+Number(x.total_launches||0),0);
  $('statToday').textContent=g.reduce((n,x)=>n+Number(x.today_launches||0),0)}
 function giInner(g){return g.icon_url?'<img src="'+esc(g.icon_url)+'" alt="" onerror="this.remove()">':'<svg><use href="#i-'+(ICONS[g.category]||'globe')+'"/></svg>'}
-function renderGames(){const box=$('games'),games=data.games||[];
+function renderGames(){
+ const box=$('games'),games=data.games||[];
  if(!games.length){box.innerHTML='<div class="empty">暂无站点，点击右上角“＋ 添加”开始。</div>';return}
- box.innerHTML=games.map(g=>{const on=Number(g.enabled)===1,cats=CATS.includes(g.category)?CATS:[...CATS,g.category].filter(Boolean);
- return `<div class="game"><div class="gh"><div class="gi" id="gi${g.id}">${giInner(g)}</div><input id="n${g.id}" value="${esc(g.name)}" placeholder="站点名称"></div>
- <div class="gg"><div class="wide"><label>简介</label><input id="d${g.id}" value="${esc(g.description)}" placeholder="一句话简介"></div>
- <div class="wide"><label>游戏图标（留空使用默认图标）</label><input id="i${g.id}" value="${esc(g.icon_url)}" placeholder="上传图片后自动填入地址" oninput="updateIcon(${g.id})"><div class="upload-row"><input id="filei${g.id}" type="file" accept="image/png,image/jpeg,image/webp,image/gif"><button class="btn pri sm" onclick="uploadGameIcon(${g.id})">上传图标</button></div><div class="upload-note">支持 PNG、JPG、WEBP、GIF，单张不超过 900 KB。上传后自动保存游戏。</div></div>
- <div class="wide"><label>跳转链接</label><input id="u${g.id}" value="${esc(g.game_url)}" placeholder="https://..."></div>
- <div><label>分类</label><select id="c${g.id}">${cats.map(c=>`<option value="${esc(c)}" ${g.category===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
- <div><label>排序（越小越靠前）</label><input id="s${g.id}" type="number" value="${Number(g.sort_order||0)}"></div></div>
- <div class="row"><label class="sw"><input id="e${g.id}" type="checkbox" ${on?'checked':''} onchange="$('t${g.id}').textContent=this.checked?'已上架':'已下架'"><i></i><span id="t${g.id}">${on?'已上架':'已下架'}</span></label>
- <div class="chips"><span class="chip">总点击 ${Number(g.total_launches||0)}</span><span class="chip">今日 ${Number(g.today_launches||0)}</span></div></div>
- <div class="acts"><button class="btn pri" onclick="editGame(${g.id})">保存</button><a class="btn gold" href="${esc(g.game_url||'#')}" target="_blank" rel="noopener">测试</a><button class="btn bad" onclick="delGame(${g.id})">删除</button></div></div>`}).join('')}
-function updateIcon(id){const g={icon_url:$('i'+id).value.trim(),category:$('c'+id).value};$('gi'+id).innerHTML=giInner(g)}
+ box.innerHTML=games.map(g=>{
+  const on=Number(g.enabled)===1;
+  return `<details class="game">
+   <summary class="game-summary">
+    <div class="gi">${giInner(g)}</div>
+    <div class="game-summary-info"><strong>${esc(g.name||'未命名游戏')}</strong><span>${on?'已上架':'已下架'} · 总点击 ${Number(g.total_launches||0)}</span></div>
+    <span class="fold-mark">编辑⌄</span>
+   </summary>
+   <div class="game-body">
+    <div class="gg">
+     <div class="wide"><label>游戏名称</label><input id="n${g.id}" value="${esc(g.name)}" placeholder="输入游戏名称"></div>
+     <div class="wide"><label>游戏简介</label><textarea id="d${g.id}" rows="3" placeholder="输入简短介绍">${esc(g.description||'')}</textarea></div>
+     <div class="wide"><label>游戏图标</label>
+      <div class="icon-edit-row"><div class="gi" id="gi${g.id}">${giInner(g)}</div><div class="icon-edit-controls"><input id="i${g.id}" value="${esc(g.icon_url||'')}" placeholder="选择图片后自动上传并保存" oninput="updateIcon(${g.id})"><input id="filei${g.id}" type="file" accept="image/png,image/jpeg,image/webp,image/gif" onchange="uploadGameIcon(${g.id})"><div class="upload-note">选择图片后会自动上传并保存，不用再点上传或保存。</div></div></div>
+     </div>
+     <div class="wide"><label>游戏链接</label><input id="u${g.id}" value="${esc(g.game_url||'')}" placeholder="https://..."></div>
+    </div>
+    <div class="row"><label class="sw"><input id="e${g.id}" type="checkbox" ${on?'checked':''} onchange="$('t${g.id}').textContent=this.checked?'已上架':'已下架'"><i></i><span id="t${g.id}">${on?'已上架':'已下架'}</span></label>
+     <div class="chips"><span class="chip">总点击 ${Number(g.total_launches||0)}</span><span class="chip">今日 ${Number(g.today_launches||0)}</span></div>
+    </div>
+    <div class="acts"><button class="btn pri" onclick="editGame(${g.id})">保存修改</button><a class="btn gold" href="${esc(g.game_url||'#')}" target="_blank" rel="noopener">测试链接</a><button class="btn bad" onclick="delGame(${g.id})">删除</button></div>
+   </div>
+  </details>`;
+ }).join('');
+}
+function updateIcon(id){const old=(data.games||[]).find(g=>String(g.id)===String(id))||{};const g={icon_url:$('i'+id).value.trim(),category:old.category||'工具'};$('gi'+id).innerHTML=giInner(g)}
 async function editGame(id){const en=$('e'+id).checked;
- const body={name:$('n'+id).value.trim(),description:$('d'+id).value.trim(),icon_url:$('i'+id).value.trim(),game_url:$('u'+id).value.trim(),category:$('c'+id).value,sort_order:Number($('s'+id).value||0),enabled:en};
+ const old=(data.games||[]).find(g=>String(g.id)===String(id))||{};const body={name:$('n'+id).value.trim(),description:$('d'+id).value.trim(),icon_url:$('i'+id).value.trim(),game_url:$('u'+id).value.trim(),category:old.category||'工具',sort_order:Number(old.sort_order||0),enabled:en};
  const r=await api('/api/games/'+id,{method:'PUT',headers:headers(),body:JSON.stringify(body)});
  if(!r.ok){toast('保存失败',1);return false}await load();toast(en?'已保存并上架':'已保存并下架');return true}
 async function addGame(){const r=await api('/api/games',{method:'POST',headers:headers(),body:JSON.stringify({name:'新站点',description:'填写简介',icon_url:'',game_url:'#',category:'全部',sort_order:(data.games||[]).length+1})});
