@@ -197,6 +197,7 @@ async function uploadImage(req, env) {
 
 // ==================== 读取图片：修复重点 ====================
 
+
 async function serveImage(id, env, method = 'GET') {
   let row;
 
@@ -205,12 +206,10 @@ async function serveImage(id, env, method = 'GET') {
       `SELECT mime_type, data, size_bytes
        FROM uploads
        WHERE id = ?`
-    )
-      .bind(id)
-      .first();
+    ).bind(id).first();
   } catch (e) {
     return new Response(
-      'D1读取图片失败：' + (e?.message || '未知数据库错误'),
+      '读取图片失败：' + (e?.message || '数据库错误'),
       {
         status: 500,
         headers: {
@@ -220,6 +219,113 @@ async function serveImage(id, env, method = 'GET') {
       }
     );
   }
+
+  if (!row || row.data == null) {
+    return new Response('找不到图片记录，ID：' + id, {
+      status: 404,
+      headers: {
+        'content-type': 'text/plain; charset=utf-8',
+        'cache-control': 'no-store'
+      }
+    });
+  }
+
+  const data = row.data;
+  let bytes = null;
+
+  // 情况一：标准 ArrayBuffer
+  if (data instanceof ArrayBuffer) {
+    bytes = new Uint8Array(data);
+  }
+
+  // 情况二：Uint8Array 等类型化数组
+  else if (ArrayBuffer.isView(data)) {
+    bytes = new Uint8Array(
+      data.buffer,
+      data.byteOffset,
+      data.byteLength
+    );
+  }
+
+  // 情况三：普通数字数组
+  else if (Array.isArray(data)) {
+    bytes = Uint8Array.from(data);
+  }
+
+  // 情况四：对象形式的 Buffer 或数字索引对象
+  else if (typeof data === 'object') {
+    if (Array.isArray(data.data)) {
+      // 例如 { type: "Buffer", data: [137, 80, ...] }
+      bytes = Uint8Array.from(data.data);
+    } else {
+      const keys = Object.keys(data);
+
+      // 例如 { "0": 137, "1": 80, "2": 78, ... }
+      if (
+        keys.length > 0 &&
+        keys.every(key => /^\d+$/.test(key))
+      ) {
+        keys.sort((a, b) => Number(a) - Number(b));
+        bytes = Uint8Array.from(
+          keys.map(key => Number(data[key]))
+        );
+      }
+    }
+  }
+
+  // 无法识别时返回具体结构，方便继续排查
+  if (!bytes || bytes.byteLength === 0) {
+    let details = '';
+
+    try {
+      details = JSON.stringify({
+        type: typeof data,
+        constructor: data?.constructor?.name || '',
+        keys: Object.keys(data).slice(0, 20),
+        size: row.size_bytes
+      });
+    } catch {
+      details = '无法读取数据结构';
+    }
+
+    return new Response(
+      '无法识别图片数据：' + details,
+      {
+        status: 500,
+        headers: {
+          'content-type': 'text/plain; charset=utf-8',
+          'cache-control': 'no-store'
+        }
+      }
+    );
+  }
+
+  const mime = row.mime_type || 'application/octet-stream';
+
+  if (!IMAGE_TYPES.has(mime)) {
+    return new Response('图片类型异常：' + mime, {
+      status: 500,
+      headers: {
+        'content-type': 'text/plain; charset=utf-8',
+        'cache-control': 'no-store'
+      }
+    });
+  }
+
+  return new Response(
+    method === 'HEAD' ? null : bytes,
+    {
+      status: 200,
+      headers: {
+        'content-type': mime,
+        'content-length': String(bytes.byteLength),
+        'cache-control': 'no-store',
+        'x-content-type-options': 'nosniff'
+      }
+    }
+  );
+}
+
 
   if (!row || row.data == null) {
     return new Response(
